@@ -8,14 +8,6 @@
                     <div class="card-body p-4">
 
                         <h2 class="mb-4 text-center">Modifier la catégorie</h2>
-
-                        {# Affichage des messages flash éventuels #}
-                        {% for label, messages in app.flashes %}
-                            {% for message in messages %}
-                                <div class="alert alert-{{ label }} mt-2">{{ message }}</div>
-                            {% endfor %}
-                        {% endfor %}
-
                         {{ form_start(form) }}
 
                             {{ form_row(form.name, {
