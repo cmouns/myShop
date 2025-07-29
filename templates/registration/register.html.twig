@@ -3,20 +3,54 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
 
-    {{ form_errors(registrationForm) }}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h1 class="mb-4 text-center">Inscription</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.firstName) }}
-        {{ form_row(registrationForm.lastName) }}
+                    {{ form_start(registrationForm) }}
 
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+                        {{ form_errors(registrationForm) }}
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+                        {{ form_widget(registrationForm.email, {
+                            'attr': {'class': 'form-control mb-3', 'placeholder': 'Email'}
+                        }) }}
+                        {{ form_errors(registrationForm.email) }}
+
+                        {{ form_widget(registrationForm.firstName, {
+                            'attr': {'class': 'form-control mb-3', 'placeholder': 'Prénom'}
+                        }) }}
+                        {{ form_errors(registrationForm.firstName) }}
+
+                        {{ form_widget(registrationForm.lastName, {
+                            'attr': {'class': 'form-control mb-3', 'placeholder': 'Nom de famille'}
+                        }) }}
+                        {{ form_errors(registrationForm.lastName) }}
+
+                        {{ form_widget(registrationForm.plainPassword, {
+                            'attr': {'class': 'form-control mb-3', 'placeholder': 'Mot de passe'}
+                        }) }}
+                        {{ form_errors(registrationForm.plainPassword) }}
+
+                        <div class="form-check mb-3">
+                            {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }} 
+                            <label class="form-check-label" for="{{ registrationForm.agreeTerms.vars.id }}">
+                                Accepter les conditions
+                            </label>
+                            {{ form_errors(registrationForm.agreeTerms) }}
+                        </div>
+
+                        <button class="btn btn-lg btn-primary w-100" type="submit">S’inscrire</button>
+
+                    {{ form_end(registrationForm) }}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
