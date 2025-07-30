@@ -2,49 +2,52 @@
 
 {% block body %}
         <title>{% block title %}Catégorie{% endblock %}</title>
+        {% include 'layouts/_flash_message.html.twig'%}
 
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
-            <div class="card shadow-sm">
-                <div class="card-body p-4">
-                    <h2 class="mb-4 text-center">Toutes les catégories</h2>
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h2 class="mb-4 text-center">Toutes les catégories</h2>
 
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Nom</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for category in categories %}
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td>{{ category.name }}</td>
-                                    <td>
-                                        <a href="{{ path('app_category_update', {'id': category.id}) }}" class="btn btn-warning btn-sm">
-                                            Modifier
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ path('app_category_delete', {'id': category.id}) }}" class="btn btn-danger btn-sm" onclick ="return confirm('Êtes-vous sûr(e) de vouloir supprimer ?')">
-                                            Supprimer
-                                        </a>
-                                    </td>
+                                    <th>Nom</th>
+                                    <th>Actions</th>
                                 </tr>
-                            {% endfor %}
-                                    <td>
-                                        <a href="{{ path('app_category_add') }}" class="btn btn-info btn-sm">
-                                            Ajouter une catégorie
-                                        </a>
-                                    </td>
-                             
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {% for category in categories %}
+                                    <tr>
+                                        <td>{{ category.name }}</td>
+                                        <td>
+                                            <a href="{{ path('app_category_update', {'id': category.id}) }}" class="btn btn-warning btn-sm btn-outline-primary">
+                                                Modifier
+                                            </a>
+                                        </td>
+                                        
+                                        <td>
+                                            <a href="{{ path('app_category_delete', {'id': category.id}) }}" class="btn btn-danger btn-sm" onclick ="return confirm('Êtes-vous sûr(e) de vouloir supprimer ?')">
+                                                Supprimer
+                                            </a>
+                                        </td>
+                                    </tr>
 
+                                {% endfor %}
+                                        <td>
+                                            <a href="{{ path('app_category_add') }}" class="btn btn-info btn-sm">
+                                                Ajouter une catégorie
+                                            </a>
+                                        </td>
+                                
+                            </tbody>
+                        </table>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
