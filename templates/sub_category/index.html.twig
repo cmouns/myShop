@@ -2,74 +2,6 @@
 
 {% block title %}Sous-catégories{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <style>
-        .container {
-            max-width: 900px;
-            margin: 40px auto 0;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            padding: 30px 25px;
-        }
-        h1 {
-            font-size: 2.2rem;
-            color: #2c3e50;
-            margin-bottom: 25px;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-        }
-        .table {
-            border-collapse: separate;
-            border-spacing: 0 10px;
-        }
-        .table thead th {
-            background: #3498db;
-            color: white;
-            padding: 12px;
-            border-radius: 8px 8px 0 0;
-            font-weight: 600;
-        }
-        .table tbody tr {
-            background: #ecf0f1;
-            transition: background-color 0.2s ease;
-        }
-        .table tbody tr:hover {
-            background-color: #d0d7de;
-        }
-        .table tbody td {
-            padding: 12px;
-        }
-        a.btn-action {
-            background-color: #2980b9;
-            color: white;
-            padding: 6px 14px;
-            border-radius: 6px;
-            text-decoration: none;
-            margin-right: 8px;
-            font-size: 0.9rem;
-            transition: background-color 0.15s ease;
-        }
-        a.btn-action:hover {
-            background-color: #1f5f85;
-        }
-        a.btn-create {
-            background-color: #27ae60;
-            color: white;
-            padding: 10px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 30px;
-            font-weight: 600;
-        }
-        a.btn-create:hover {
-            background-color: #1e8449;
-        }
-    </style>
-{% endblock %}
-
 {% block body %}
 <div class="container">
 
@@ -89,8 +21,8 @@
                 <td>{{ sub_category.id }}</td>
                 <td>{{ sub_category.name }}</td>
                 <td>
-                    <a href="{{ path('app_sub_category_show', {'id': sub_category.id}) }}" class="btn-action">Afficher</a>
-                    <a href="{{ path('app_sub_category_edit', {'id': sub_category.id}) }}" class="btn-action">Éditer</a>
+                    <a href="{{ path('app_sub_category_show', {'id': sub_category.id}) }}" class="btn btn-action">Afficher</a>
+                    <a href="{{ path('app_sub_category_edit', {'id': sub_category.id}) }}" class="btn btn-action">Éditer</a>
                 </td>
             </tr>
         {% else %}

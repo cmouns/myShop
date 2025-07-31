@@ -2,75 +2,10 @@
 
 {% block title %}Détails de la sous-catégorie{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <style>
-        .container-show {
-            max-width: 600px;
-            margin: 40px auto;
-            background: #fff;
-            padding: 30px 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 25px;
-            letter-spacing: 1.2px;
-            text-align: center;
-        }
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 10px;
-        }
-        th {
-            width: 120px;
-            text-align: left;
-            background-color: #3498db;
-            color: white;
-            padding: 12px 15px;
-            border-radius: 8px 0 0 8px;
-            font-weight: 600;
-            vertical-align: middle;
-        }
-        td {
-            background-color: #ecf0f1;
-            padding: 12px 15px;
-            border-radius: 0 8px 8px 0;
-            vertical-align: middle;
-        }
-        a.btn {
-            display: inline-block;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 10px 24px;
-            border-radius: 8px;
-            transition: background-color 0.2s ease;
-            margin-right: 12px;
-            margin-top: 20px;
-            color: white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        a.btn-back {
-            background-color: #2980b9;
-        }
-        a.btn-back:hover {
-            background-color: #1f5f85;
-        }
-        a.btn-edit {
-            background-color: #27ae60;
-        }
-        a.btn-edit:hover {
-            background-color: #1e8449;
-        }
-    </style>
-{% endblock %}
+
 
 {% block body %}
-<div class="container-show">
+<div class="container">
     <h1>Détails de la sous-catégorie</h1>
 
     <table>

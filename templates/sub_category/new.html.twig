@@ -2,56 +2,10 @@
 
 {% block title %}Nouvelle sous-catégorie{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <style>
-        .container-new {
-            max-width: 600px;
-            margin: 40px auto;
-            background: #fff;
-            padding: 30px 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 25px;
-            letter-spacing: 1.2px;
-            text-align: center;
-        }
-        a.btn-back {
-            display: inline-block;
-            margin-top: 20px;
-            color: #2980b9;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.2s ease;
-        }
-        a.btn-back:hover {
-            color: #1f5f85;
-            text-decoration: underline;
-        }
-        /* Style bouton du formulaire s'il n'est pas déjà défini dans _form.html.twig */
-        button.btn, input[type="submit"].btn {
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.15s ease;
-        }
-        button.btn:hover, input[type="submit"].btn:hover {
-            background-color: #1e8449;
-        }
-    </style>
-{% endblock %}
+
 
 {% block body %}
-<div class="container-new">
+<div class="container">
     <h1>Créer une nouvelle sous-catégorie</h1>
 
     {{ include('sub_category/_form.html.twig') }}

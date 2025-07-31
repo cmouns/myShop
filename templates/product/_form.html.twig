@@ -1,7 +1,28 @@
 {{ form_start(form) }}
-    {{ form_widget(form.name, {'attr': {'class':'form form-control'}}) }}
-    {{ form_widget(form.description, {'attr': {'class':'form form-control'}}) }}
-    {{ form_widget(form.price, {'attr': {'class':'form form-control'}}) }}
-    {{ form_widget(form.SubCategory, {'attr': {'class':'form form-control'}}) }}
-    <button class="btn btn-outline-primary">{{ button_label|default('Sauvegarder') }}</button>
+
+    <div class="mb-3">
+        {{ form_widget(form.name, {attr: {class: 'form-control','placeholder': 'Nom'}}) }}
+        {{ form_errors(form.name) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_widget(form.description, {attr: {class: 'form-control','placeholder': 'Description'}}) }}
+        {{ form_errors(form.description) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_widget(form.price, {attr: {class: 'form-control' ,'placeholder': 'Prix'}}) }}
+        {{ form_errors(form.price) }}
+    </div>
+
+    <div class="mb-3">
+        <label for="{{ form.SubCategory.vars.id }}" class="form-label">Sous-catégorie</label>
+        {{ form_widget(form.SubCategory, {attr: {class: 'form-select'}}) }}
+        {{ form_errors(form.SubCategory) }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        {{ button_label|default('Sauvegarder') }}
+    </button>
+
 {{ form_end(form) }}
