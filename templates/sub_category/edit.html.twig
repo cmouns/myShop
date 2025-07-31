@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier une sous-catégorie{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .container-edit {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 25px;
+            letter-spacing: 1.2px;
+            font-size: 2rem;
+            text-align: center;
+        }
+        a.btn-back {
+            display: inline-block;
+            margin-top: 20px;
+            margin-bottom: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+        a.btn-back:hover {
+            color: #1f5f85;
+            text-decoration: underline;
+        }
+        /* Style bouton du formulaire (hérité de _form si besoin) */
+        button.btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.15s ease;
+        }
+        button.btn:hover {
+            background-color: #1e8449;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="container-edit">
+    <h1>Modifier une sous-catégorie</h1>
+
+    {{ include('sub_category/_form.html.twig', { button_label: 'Mettre à jour' }) }}
+
+    <a href="{{ path('app_sub_category_index') }}" class="btn-back">&larr; Retour à la liste</a>
+
+    {{ include('sub_category/_delete_form.html.twig') }}
+</div>
+{% endblock %}

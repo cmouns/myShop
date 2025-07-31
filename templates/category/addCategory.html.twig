@@ -7,7 +7,7 @@
             <div class="card shadow-sm">
                 <div class="card-body p-4">
                     <h2 class="mb-4 text-center">Ajouter une catégorie</h2>
-
+                    {% include 'layouts/_flash_message.html.twig' %}
                     {{ form_start(form) }}
                         {{ form_widget(form.name, {
                             'attr': {

@@ -1,6 +1,8 @@
 {% block body %}
+
     <div class="container my-5" style="max-width: 1000px;">
         <h2 class="mb-4 text-center fw-bold text-primary">Liste des utilisateurs</h2>
+        {% include 'layouts/_flash_message.html.twig'%}
         <div class="rounded shadow-lg overflow-hidden">
             <table class="table table-borderless align-middle mb-0">
                 <thead style="background: linear-gradient(90deg, #0d6efd 0%, #4f8cff 100%); color: #fff;">
@@ -15,6 +17,7 @@
                 </thead>
                 <tbody>
                 {% for user in users %}
+
                     <tr style="background-color: #f7f9fb;">
                         <td class="fw-bold text-secondary">{{ user.id }}</td>
                         <td>{{ user.lastName }}</td>
@@ -27,11 +30,11 @@
                         </td>
                         <td>
                             {% if ('ROLE_ADMIN' not in user.roles) %}
-                                <a href="{{ path('app_users_to_editor', {'id': user.id}) }}" class="btn btn-primary btn-sm me-2 rounded-pill px-3">Modifier</a>
-                                <a href="#" class="btn btn-danger btn-sm rounded-pill px-3" onclick="return confirm('Êtes-vous sûr(e) de vouloir supprimer ?')">Supprimer</a>
-                            {% else %}
-                                <span class="badge bg-secondary">Admin</span>
+                                <a href="{{ path('app_users_remove_editor_role', {'id': user.id}) }}" class="btn btn-danger btn-sm rounded-pill px-3" onclick="return confirm('Êtes-vous sûr(e) de vouloir supprimer ?')">Supprimer</a>
+                                <a href="{{ path('app_users_to_editor', {'id': user.id}) }}" class="btn btn-primary btn-sm me-2 rounded-pill px-3" onclick="return confirm('Êtes-vous sûr(e) de vouloir ajouter ce role à cet utilisateur ?')">Modifier</a>
                             {% endif %}
+                            <a href="{{ path('app_users_remove', {'id': user.id}) }}" class="btn btn-danger btn-sm rounded-pill px-3">Supprimer</a>
+
                         </td>
                     </tr>
                 {% else %}

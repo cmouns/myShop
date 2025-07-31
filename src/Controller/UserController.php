@@ -29,4 +29,22 @@ final class UserController extends AbstractController
         $this->addFlash('success', 'Le rôle de l\'utilisateur a été modifié avec succès.');
         return $this->redirectToRoute('app_users');
     }
+    #[Route('/admin/users/{id}/remove/editor/role', name: 'app_users_remove_editor_role')]
+   public function removerole(EntityManagerInterface $em, User $user): Response
+    {   
+        $user->setRoles([]);
+        $em->flush();
+        $this->addFlash('success', 'Le rôle de éditeur a bien été retiré avec succès.');
+        return $this->redirectToRoute('app_users');
+    }
+    #[Route('/admin/users/{id}/remove/', name: 'app_users_remove')]
+   public function removeUser(EntityManagerInterface $em, $id, UserRepository $repo): Response
+    {   
+        $user = $repo->find($id);
+        $em->remove($user);
+        $em->flush();
+        $this->addFlash('danger', 'L\'utilisateur a été supprimé avec succès.');
+        return $this->redirectToRoute('app_users');
+    }
 }
+

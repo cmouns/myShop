@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
     <div class="container my-5">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5">
@@ -8,6 +9,8 @@
                     <div class="card-body p-4">
 
                         <h2 class="mb-4 text-center">Modifier la catégorie</h2>
+                        {% include 'layouts/_flash_message.html.twig'%}
+
                         {{ form_start(form) }}
 
                             {{ form_row(form.name, {
