@@ -2,16 +2,20 @@
 
 namespace App\Controller;
 
+use DateTimeImmutable;
 use App\Entity\Product;
 use App\Form\ProductType;
+use App\Entity\AddProductHistory;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-#[Route('/product')]
+#[Route('/editor/product')]
 final class ProductController extends AbstractController
 {
     #[Route(name: 'app_product_index', methods: ['GET'])]
@@ -23,19 +27,47 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/new', name: 'app_product_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('image')->getData();
+
+            if ($image) {
+            $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeImageName = $slugger->slug($originalName);
+            $newFileImageName = $safeImageName.'-'.uniqid().'.'.$image->guessExtension();
+
+                try {
+                    $image->move(
+                        $this->getParameter('image_directory'),
+                        $newFileImageName
+                    );
+                } catch (FileException $exception) {
+                    // Message d'erreur au besoin
+                }
+                $product->setImage($newFileImageName);
+
+                
+            }
+    
             $entityManager->persist($product);
             $entityManager->flush();
+
+            $stockHistory = new AddProductHistory();
+            $stockHistory->setQuantity($product->getStock());
+            $stockHistory->setProduct($product);
+            $stockHistory->setCreatedAt(new DateTimeImmutable());
+            $entityManager->persist($stockHistory);
+            $entityManager->flush();
+
             $this->addFlash('success', 'Le produit a été créé avec succès.');
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->render('product/new.html.twig', [
             'product' => $product,
             'form' => $form,
@@ -76,6 +108,6 @@ final class ProductController extends AbstractController
             $entityManager->flush();
         }
         $this->addFlash('danger', 'Le produit a été supprimé avec succès.');
-        return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
     }
 }
+

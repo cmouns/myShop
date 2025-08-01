@@ -11,14 +11,24 @@
     </div>
 
     <div class="mb-3">
-        {{ form_widget(form.price, {attr: {class: 'form-control' ,'placeholder': 'Prix'}}) }}
+        {{ form_row(form.price, {attr: {class: 'form-control' ,'placeholder': 'Prix'}}) }}
         {{ form_errors(form.price) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(form.stock, {attr: {class: 'form-control' ,'placeholder': 'Stock'}}) }}
+        {{ form_errors(form.stock) }}
     </div>
 
     <div class="mb-3">
         <label for="{{ form.SubCategory.vars.id }}" class="form-label">Sous-catégorie</label>
         {{ form_widget(form.SubCategory, {attr: {class: 'form-select'}}) }}
         {{ form_errors(form.SubCategory) }}
+    </div>
+
+    <div class="mb-3">
+        <label for="{{ form.image.vars.id }}" class="form-label">Image du produit</label>
+        {{ form_widget(form.image, {attr: {class: 'form-select'}}) }}
+        {{ form_errors(form.image) }}
     </div>
 
     <button type="submit" class="btn btn-primary">
