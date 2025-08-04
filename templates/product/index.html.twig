@@ -12,7 +12,7 @@
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Name</th>
+                        <th>Nom</th>
                         <th>Description</th>
                         <th>Prix</th>
                         <th>Stock</th>
@@ -35,8 +35,10 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <a href="{{ path('app_product_show', {'id': product.id}) }}">show</a>
-                                <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
+                                <a href="{{ path('app_product_show', {'id': product.id}) }}">Voir</a>
+                                <a href="{{ path('app_product_edit', {'id': product.id}) }}">Modifier</a>
+                                <a href="{{ path('app_product_stock_add', {'id': product.id}) }}">Ajouter du stock</a>
+
                             </td>
                         </tr>
                     {% endfor %}

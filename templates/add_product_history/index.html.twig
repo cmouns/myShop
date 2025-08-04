@@ -9,9 +9,9 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Quantity</th>
-                <th>CreatedAt</th>
-                <th>actions</th>
+                <th>Quantité</th>
+                <th>Date</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -21,17 +21,11 @@
                 <td>{{ add_product_history.quantity }}</td>
                 <td>{{ add_product_history.createdAt ? add_product_history.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_add_product_history_show', {'id': add_product_history.id}) }}">show</a>
-                    <a href="{{ path('app_add_product_history_edit', {'id': add_product_history.id}) }}">edit</a>
+                    <a href="{{ path('app_add_product_history_show', {'id': add_product_history.id}) }}">Consulter l'historique</a>
+                    <a href="{{ path('app_add_product_history_edit', {'id': add_product_history.id}) }}">Modifier</a>
                 </td>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
     </table>
 
-    <a href="{{ path('app_add_product_history_new') }}">Create new</a>
+    <a href="{{ path('app_add_product_history_new') }}">Nouveau historique</a>
 {% endblock %}

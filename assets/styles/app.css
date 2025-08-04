@@ -56,3 +56,12 @@ body {
 .flash-message:hover {
         background-color: #c3e6cb;
     }
+
+.titleProduct{
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+.titleProduct:hover{
+    text-decoration: none;
+    color: rgb(0, 17, 255);
+}

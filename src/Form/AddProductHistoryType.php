@@ -15,13 +15,6 @@ class AddProductHistoryType extends AbstractType
     {
         $builder
             ->add('quantity')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('product', EntityType::class, [
-                'class' => Product::class,
-                'choice_label' => 'id',
-            ])
         ;
     }
 

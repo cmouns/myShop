@@ -14,10 +14,12 @@
         {{ form_row(form.price, {attr: {class: 'form-control' ,'placeholder': 'Prix'}}) }}
         {{ form_errors(form.price) }}
     </div>
-    <div class="mb-3">
-        {{ form_row(form.stock, {attr: {class: 'form-control' ,'placeholder': 'Stock'}}) }}
-        {{ form_errors(form.stock) }}
-    </div>
+    {% if button_label != 'Modifier' %}
+        <div class="mb-3">
+            {{ form_row(form.stock, {attr: {class: 'form-control' ,'placeholder': 'Stock'}}) }}
+            {{ form_errors(form.stock) }}
+        </div>
+    {% endif %}
 
     <div class="mb-3">
         <label for="{{ form.SubCategory.vars.id }}" class="form-label">Sous-catégorie</label>

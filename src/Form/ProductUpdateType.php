@@ -11,12 +11,14 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
-class ProductType extends AbstractType
+class ProductUpdateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name')
+            ->add('description')
+            ->add('price')
             ->add('image', FileType::class, [
                 'label' => 'Image',
                 'mapped' => false,
@@ -28,18 +30,13 @@ class ProductType extends AbstractType
                             'image/jpeg',
                             'image/png',
                             'image/jpg',
-                            'image/webp',
+                            'image/webdp',
                             'image/gif',
                         ],
                     'mimeTypesMessage' => 'Veuillez choisir une image valide (JPEG, PNG, JPG, WEBP, GIF).'
                 ])
             ]
             ])
-        
-            
-            ->add('description')
-            ->add('stock')
-            ->add('price')
             ->add('SubCategory', EntityType::class, [
                 'class' => SubCategory::class,
                 'choice_label' => 'name',

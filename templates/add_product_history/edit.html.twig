@@ -3,11 +3,14 @@
 {% block title %}Edit AddProductHistory{% endblock %}
 
 {% block body %}
+<div class="container">
     <h1>Edit AddProductHistory</h1>
 
-    {{ include('add_product_history/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('add_product_history/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('app_add_product_history_index') }}">back to list</a>
+    <a href="{{ path('app_add_product_history_index') }}">Retour a la liste</a>
 
     {{ include('add_product_history/_delete_form.html.twig') }}
+</div>
+    
 {% endblock %}
