@@ -24,16 +24,9 @@ class Category
     #[ORM\OneToMany(targetEntity: SubCategory::class, mappedBy: 'category', orphanRemoval: true)]
     private Collection $subCategories;
 
-    /**
-     * @var Collection<int, SubCategory>
-     */
-    #[ORM\OneToMany(targetEntity: SubCategory::class, mappedBy: 'category', orphanRemoval: true)]
-    private Collection $subCategory;
-
     public function __construct()
     {
         $this->subCategories = new ArrayCollection();
-        $this->subCategory = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -81,13 +74,5 @@ class Category
         }
 
         return $this;
-    }
-
-    /**
-     * @return Collection<int, SubCategory>
-     */
-    public function getSubCategory(): Collection
-    {
-        return $this->subCategory;
     }
 }

@@ -4,7 +4,12 @@
 
 {% block body %}
 <div class="container">
-  <h1 class="mb-5 mt-5">Produits</h1>
+
+    {% if subCategory is defined %}
+    <h1 class="mb-5 mt-5">{{ subCategory.name }}</h1>
+    {% elseif category is defined %}
+    <h1 class="mb-5 mt-5">{{ category.name }}</h1>
+    {% endif %}    
     <div class="row">
         {% for product in products %}
       <div class="col-md-3 mb-4 d-flex">

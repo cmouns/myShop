@@ -19,6 +19,18 @@
 
             <p class="text-muted" style="white-space: pre-line;">{{ product.description }}</p>
 
+            {% if product.stock >= 1 %}
+                <div class='dispo d-flex'>
+                    <h2 class="dispoText">Disponibilité :</h2>
+                    <ul class="textStock">
+                        <li>
+                         En stock
+                        </li>
+                    </ul>
+                </div>
+            {% endif %}
+            <h3>{{product.price}}€</h3>
+
             <!-- Ajouter au panier -->
             <div class="mt-auto">
                 <a href="#" class="btn btn-success btn-lg w-100">Ajouter au panier</a>
@@ -43,6 +55,19 @@
                     <p class="card-text flex-grow-1">
                     {{ product.description|slice(0, 60) }}{{ product.description|length > 60 ? '...' }}
                     </p>
+                    {% if product.stock >= 1 %}
+                        <div class='dispo d-flex'>
+                            <h2 class="dispoText">Disponibilité :</h2>
+                            <ul class="textStock">
+                                <li>
+                                En stock
+                                </li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                    <h3>{{product.price}}€</h3>
+
+                    
                     <a href="#" class="btn btn-outline-success mt-auto w-150">Ajouter au panier</a>
                 </div>
             </div>
