@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Product;
-use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
+use App\Repository\CategoryRepository;
 use App\Repository\SubCategoryRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,11 +15,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class HomePageController extends AbstractController
 {
     #[Route('/', name: 'app_home_page', methods : ['GET'])]
-    public function index(ProductRepository $repo, CategoryRepository $categoryRepo): Response
+    public function index(ProductRepository $repo, CategoryRepository $categoryRepo,PaginatorInterface $paginator, Request $request): Response
     {
+        $data= $repo->findby([],['id'=>'DESC']);
+        $products = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            8
+        );
+
         return $this->render('home_page/index.html.twig', [
-            'products' => $repo->findAll(),
+            'products' => $products,
             'categories' => $categoryRepo->findAll(),
+
         ]);
     }
 
@@ -68,6 +78,7 @@ final class HomePageController extends AbstractController
             'categories' => $categoryRepo->findAll(),
         ]);
     }
+    
 }
 
 
