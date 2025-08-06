@@ -15,7 +15,7 @@ class CityType extends AbstractType
             ->add('name', null, [
                 'required' => true,
                 'label' => 'Nom de la ville',
-                'attr' => ['class'=>'form,form-control','placeholder' => 'Entrez le nom de la ville']
+                'attr' => ['class'=>'form,form-control,','placeholder' => 'Entrez le nom de la ville']
             ])
             ->add('shippingCost', null, [
                 'required' => true,

@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderController!{% endblock %}
+
+{% block body %}
+<div class='container'>
+    <div class="row"
+        <div class="col-8">
+            <h1 class='mt-4 mb-4'>Commande</h1>
+            {{ form_start(form) }}
+
+                {{ form_errors(form) }}
+
+                            
+                {{ form_widget(form.firstName, {
+                }) }}
+                {{ form_errors(form.firstName) }}
+
+                {{ form_widget(form.lastName, {
+                }) }}
+                {{ form_errors(form.lastName) }}
+
+                {{ form_widget(form.adress, {
+                }) }}
+                {{ form_errors(form.adress) }}
+
+                {{ form_widget(form.city, {
+                }) }}
+                {{ form_errors(form.city) }}
+
+                {{ form_widget(form.phone, {
+                }) }}
+                {{ form_errors(form.phone) }}
+
+                <button class="btn btn-lg btn-primary w-100" type="submit">Continuer</button>
+
+            {{ form_end(form) }}
+        </div>
+        <div class="col-4">
+            
+            <span class="mb-2">Montant à payer :</span> 
+            <h3> 
+                <span id="cart-price">{{ total }}</span>€ 
+            </h3> 
+            <span>Frais de livrasion</span>
+        </div>
+    </div>
+
+
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script>
+ $(document).ready(function(){
+    const citySelector = $('order_city');   // Selectionne l'élement HTMl avec l'id order_city et le stoque dans la constante citySelector
+    const cityValue = citySelector.val(); // Récupère la valeur de l'élément HTMl citySelector et le stoque dans la constante cityValue
+
+ })
+
+{% endblock %}
