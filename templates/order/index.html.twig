@@ -4,8 +4,11 @@
 
 {% block body %}
 <div class='container'>
-    <div class="row"
+    <div class="row">
         <div class="col-8">
+            <div class="d-flex justify-content-start mt-3 ">
+            <a href="{{ path('app_cart') }}" class="btn btn-sm btn-outline-danger">Retour</a>
+            </div>
             <h1 class='mt-4 mb-4'>Commande</h1>
             {{ form_start(form) }}
 
@@ -38,11 +41,20 @@
         </div>
         <div class="col-4">
             
-            <span class="mb-2">Montant à payer :</span> 
+            <span class="mb-2">Montant du panier :</span> 
             <h3> 
                 <span id="cart-price">{{ total }}</span>€ 
             </h3> 
             <span>Frais de livrasion</span>
+            <h3> 
+                <span id="shippingCost"></span>
+                €
+            </h3>
+            <span>Montant total à payer :</span>
+            <h3>
+                <span class="total-price"></span>
+                €
+            </h3>
         </div>
     </div>
 
@@ -50,22 +62,49 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
- $(document).ready(function(){
-    const citySelector = $('order_city');   // Selectionne l'élement HTMl avec l'id order_city et le stoque dans la constante citySelector
-    const cityValue = citySelector.val();
+$(document).ready(function(){
+    // On sélectionne le champ ville une seule fois
+    const citySelector = $('#order_city');
 
-    const ult = `http://localhost:8000/city/${cityValue}/shipping/cost`; // Crée une URL pour récupérer les frais de livraison de la ville sélectionnée
+    // Fonction générique pour faire la requête AJAX
+    function ajaxRequest(url) {
+        $.ajax({
+            url: url, 
+            type: 'GET', 
+            success: function(response){
+                if (parseInt(response.status) === 200){
+                    $("#shippingCost").text(response.content);
 
-    $.ajax({
-        url:url, // Utilise l'URL créée précédemment
-        type:'GET', // Type de requête HTTP
-        success:function(response){ // Gère la réponse de la requête AJAX
+                    const cardPrice = parseFloat($("#cart-price").text());
+                    const shippingCost = parseFloat($('#shippingCost').text());
+                    const totalPrice = cardPrice + shippingCost;
+                    $(".total-price").text(totalPrice);
+                    console.log(cardPrice);
+                    
+                }
+            }
+        });
+    }
 
-        },
-        
-        error:function(xhr, status, error){ // Gère les erreurs de la requête AJAX
+    // Fonction pour construire l'URL et lancer la requête
+    function updateShippingCost() {
+        const cityValue = citySelector.val();
+        if (cityValue) {
+            const url = `http://localhost:8000/city/${cityValue}/shipping/cost`;
+            ajaxRequest(url);
+        } else {
+            $("#shippingCost").text('');
         }
-    })
- })
+    }
 
+    // Appel au chargement
+    updateShippingCost();
+
+    // Appel à chaque changement de ville
+    citySelector.on('change', function() {
+    const urlUpdate = `http://localhost:8000/city/${$(this).val()}/shipping/cost`;
+    ajaxRequest(urlUpdate);
+    });
+});
+</script>
 {% endblock %}

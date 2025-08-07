@@ -29,7 +29,7 @@ class Product
      * @var Collection<int, SubCategory>
      */
     #[ORM\ManyToMany(targetEntity: SubCategory::class, inversedBy: 'products')]
-    private Collection $SubCategory;
+    private Collection $subCategories;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
@@ -45,7 +45,7 @@ class Product
 
     public function __construct()
     {
-        $this->SubCategory = new ArrayCollection();
+        $this->subCategories = new ArrayCollection();
         $this->addProductHistories = new ArrayCollection();
     }
 
@@ -62,7 +62,6 @@ class Product
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -74,7 +73,6 @@ class Product
     public function setDescription(?string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -86,31 +84,28 @@ class Product
     public function setPrice(int $price): static
     {
         $this->price = $price;
-
         return $this;
     }
 
     /**
      * @return Collection<int, SubCategory>
      */
-    public function getSubCategory(): Collection
+    public function getSubCategories(): Collection
     {
-        return $this->SubCategory;
+        return $this->subCategories;
     }
 
     public function addSubCategory(SubCategory $subCategory): static
     {
-        if (!$this->SubCategory->contains($subCategory)) {
-            $this->SubCategory->add($subCategory);
+        if (!$this->subCategories->contains($subCategory)) {
+            $this->subCategories->add($subCategory);
         }
-
         return $this;
     }
 
     public function removeSubCategory(SubCategory $subCategory): static
     {
-        $this->SubCategory->removeElement($subCategory);
-
+        $this->subCategories->removeElement($subCategory);
         return $this;
     }
 
@@ -122,7 +117,6 @@ class Product
     public function setImage(?string $image): static
     {
         $this->image = $image;
-
         return $this;
     }
 
@@ -134,7 +128,6 @@ class Product
     public function setStock(int $stock): static
     {
         $this->stock = $stock;
-
         return $this;
     }
 
@@ -152,19 +145,16 @@ class Product
             $this->addProductHistories->add($addProductHistory);
             $addProductHistory->setProduct($this);
         }
-
         return $this;
     }
 
     public function removeAddProductHistory(AddProductHistory $addProductHistory): static
     {
         if ($this->addProductHistories->removeElement($addProductHistory)) {
-            // set the owning side to null (unless already changed)
             if ($addProductHistory->getProduct() === $this) {
                 $addProductHistory->setProduct(null);
             }
         }
-
         return $this;
     }
 }

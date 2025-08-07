@@ -53,8 +53,8 @@
 
             <div class="d-flex justify-content-end mt-3">
                 <a href="{{ path('app_cart_remove') }}" class="btn btn-outline-danger btn-lg">Supprimer le panier</a>
-                <a href="" class="btn btn-success btn-lg" data-turbo ="false">Passer à la caisse</a>
-                
+                <a href="{{ path('app_order') }}"  class="btn btn-success btn-lg" data-turbo ="false">Passer à la caisse</a>
+
             </div>
         {% endif %}
     {% endif %}

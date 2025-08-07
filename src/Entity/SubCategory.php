@@ -18,14 +18,14 @@ class SubCategory
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'subCategory')]
+    #[ORM\ManyToOne(inversedBy: 'subCategories')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
     /**
      * @var Collection<int, Product>
      */
-    #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'SubCategory')]
+    #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'subCategories')]
     private Collection $products;
 
     public function __construct()

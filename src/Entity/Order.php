@@ -35,6 +35,9 @@ class Order
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\Column]
+    private ?bool $payOnDelivery = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +123,18 @@ class Order
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function isPayOnDelivery(): ?bool
+    {
+        return $this->payOnDelivery;
+    }
+
+    public function setPayOnDelivery(bool $payOnDelivery): static
+    {
+        $this->payOnDelivery = $payOnDelivery;
 
         return $this;
     }
