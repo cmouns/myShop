@@ -14,6 +14,11 @@ class OrderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('payOnDelivery', null, [
+                'required' => false,
+                'label' => 'Paiement à la livraison',
+                'attr' => ['class'=>'form-check-input mb-3']
+            ])
             // ->add('name')
             ->add('firstName',null, [
                 'required' => true,

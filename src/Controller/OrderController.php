@@ -17,13 +17,18 @@ final class OrderController extends AbstractController
     #[Route('/order', name: 'app_order')]
     public function index(Request $request, SessionInterface $session , ProductRepository $productRepo): Response
     {
+        $order = new Order();
+        $form = $this->createForm(OrderType::class, $order);
+        $form->handleRequest($request);
+
         $cart = $session->get('cart', []);
         $cardWithDatas = [];
 
         foreach ($cart as $id => $quantity) {
                 $cardWithDatas[] = [
                     'products' => $productRepo->find($id),
-                    'quantity' => $quantity
+                    'quantity' => $quantity,
+                    'form' => $form->createView(),
                 ];
             }
 
