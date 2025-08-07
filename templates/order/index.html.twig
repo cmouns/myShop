@@ -52,8 +52,20 @@
 <script>
  $(document).ready(function(){
     const citySelector = $('order_city');   // Selectionne l'élement HTMl avec l'id order_city et le stoque dans la constante citySelector
-    const cityValue = citySelector.val(); // Récupère la valeur de l'élément HTMl citySelector et le stoque dans la constante cityValue
+    const cityValue = citySelector.val();
 
+    const ult = `http://localhost:8000/city/${cityValue}/shipping/cost`; // Crée une URL pour récupérer les frais de livraison de la ville sélectionnée
+
+    $.ajax({
+        url:url, // Utilise l'URL créée précédemment
+        type:'GET', // Type de requête HTTP
+        success:function(response){ // Gère la réponse de la requête AJAX
+
+        },
+        
+        error:function(xhr, status, error){ // Gère les erreurs de la requête AJAX
+        }
+    })
  })
 
 {% endblock %}
