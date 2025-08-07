@@ -6,6 +6,9 @@ use App\Entity\City;
 use App\Entity\Order;
 use App\Form\OrderType;
 use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Dom\Entity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -15,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class OrderController extends AbstractController
 {
     #[Route('/order', name: 'app_order')]
-    public function index(Request $request, SessionInterface $session , ProductRepository $productRepo): Response
+    public function index(Request $request, SessionInterface $session , ProductRepository $productRepo, EntityManagerInterface $em): Response
     {
         $order = new Order();
         $form = $this->createForm(OrderType::class, $order);
