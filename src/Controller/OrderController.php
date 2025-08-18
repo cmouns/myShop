@@ -88,12 +88,29 @@ final class OrderController extends AbstractController
         $ordersPagination = $paginator->paginate(
             $orders,
             $request->query->getInt('page', 1),
-            8
+            6
         );
         
         return $this->render('order/orders.html.twig', [
             "orders"=>$orders,
             "ordersPagination"=>$ordersPagination
         ]);
+    }
+
+    #[Route('/editor/order/{id}/is-competed/update', name: 'app_orders_is-completed-update')]
+    public function isCompletedUpdate(OrderRepository $orderRepo, $id, EntityManagerInterface $em ): Response {
+        $order = $orderRepo->find($id);
+        $order->setIsCompleted(true);
+        $em->flush();
+        $this->addFlash('success', 'Modification effectuée');
+        return $this->redirectToRoute('app_orders_show'); 
+    }
+
+    #[Route('/editor/order/{id}/remove', name: 'app_orders_remove')]
+    public function removeOrder(Order $order, EntityManagerInterface $em): Response {
+        $em->remove($order);
+        $em->flush();
+        $this->addFlash('danger', 'Commande supprimée');
+        return $this->redirectToRoute('app_orders_show'); 
     }
 }
