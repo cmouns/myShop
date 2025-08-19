@@ -1,0 +1,81 @@
+body {
+
+}
+
+.loginForm {
+    border: solid;
+    width: 500px;
+}
+.btn{
+    margin : 10px;
+    display: flex;
+    justify-self: center;
+}
+.containerForm {
+    display:flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 100vh;
+}
+
+.loginForm {
+    
+    width: 100%;
+    height: 25vh;
+}
+
+.card {
+    border-radius: 1rem;
+}
+.btn-primary {
+    background: linear-gradient(90deg, #007bff 60%, #0056b3 100%);
+    border: none;
+    transition: background 0.3s;
+}
+.btn-primary:hover {
+    background: linear-gradient(90deg, #0056b3 60%, #007bff 100%);
+}
+.loginForm label { 
+    font-weight: 500; 
+}
+.flash-message {
+        font-size: 1.4rem;          /* Texte plus grand */
+        font-weight: 600;           /* Plus gras */
+        color: #155724;             /* Texte vert foncé (compatible bootstrap success) */
+        background-color: #d4edda; /* Fond vert clair */
+        border: 1px solid #c3e6cb; /* Bordure verte claire */
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 128, 0, 0.2); /* Ombre verte douce */
+        text-align: center;
+        max-width: 600px;
+        margin: 10px auto;
+        transition: background-color 0.3s ease;
+    }
+.flash-message:hover {
+        background-color: #c3e6cb;
+    }
+
+.titleProduct{
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+.titleProduct:hover{
+    text-decoration: none;
+    color: rgb(0, 17, 255);
+}
+.textStock{
+    color: #008382;
+}
+
+.dispoText{
+    float: left;
+    font-size: 16px;
+    color: #000;
+    line-height: normal;
+    padding-right: 5px;
+    font-weight: 700;
+    margin: 0;
+}
+    

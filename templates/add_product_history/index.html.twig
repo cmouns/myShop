@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AddProductHistory index{% endblock %}
+
+{% block body %}
+    <h1>AddProductHistory index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Quantité</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for add_product_history in add_product_histories %}
+            <tr>
+                <td>{{ add_product_history.id }}</td>
+                <td>{{ add_product_history.quantity }}</td>
+                <td>{{ add_product_history.createdAt ? add_product_history.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_add_product_history_show', {'id': add_product_history.id}) }}">Consulter l'historique</a>
+                    <a href="{{ path('app_add_product_history_edit', {'id': add_product_history.id}) }}">Modifier</a>
+                </td>
+            </tr>
+    </table>
+
+    <a href="{{ path('app_add_product_history_new') }}">Nouveau historique</a>
+{% endblock %}

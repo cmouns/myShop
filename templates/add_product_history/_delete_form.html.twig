@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_add_product_history_delete', {'id': add_product_history.id}) }}" onsubmit="return confirm('Etes-vous sûr(e) de vouloir supprimer?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ add_product_history.id) }}">
+    <button class="btn">Supprimer</button>
+</form>

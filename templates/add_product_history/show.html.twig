@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AddProductHistory{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>AddProductHistory</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ add_product_history.id }}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ add_product_history.quantity }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ add_product_history.createdAt ? add_product_history.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_add_product_history_index') }}">back to list</a>
+
+    <a href="{{ path('app_add_product_history_edit', {'id': add_product_history.id}) }}">edit</a>
+
+    {{ include('add_product_history/_delete_form.html.twig') }}
+</div>
+{% endblock %}

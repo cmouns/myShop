@@ -1,0 +1,69 @@
+
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <div class="container my-5" style="max-width: 1000px;">
+        <h2 class="mb-4 text-center fw-bold text-primary">Historique du stock</h2>
+        <div class="rounded shadow-lg overflow-hidden">
+            <table class="table table-borderless align-middle mb-0">
+                    <tr>
+                        <th>ID</th>
+                        <th>Quantité</th>
+                        <th>Date d'ajout</th>
+                    </tr>
+                
+                {% for productAdded in productsAdded %}
+                    <tr style="background-color: #f7f9fb;">
+                        <td>{{ productAdded.id }}</td>
+                        <td>{{ productAdded.quantity }}</td>
+                        <td>{{ productAdded.createdAt| date('d-m-Y H:i:s') }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <style>
+        
+        h2 {
+            letter-spacing: 1px;
+            text-shadow: 0 2px 12px #4f8cff55;
+        }
+        .table th, .table td {
+            vertical-align: middle !important;
+            font-size: 1.05em;
+        }
+        .table thead th {
+            border-bottom: none !important;
+        }
+        .btn {
+            min-width: 90px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px #d4e3fa44;
+            transition: background 0.22s, color 0.22s;
+        }
+        .btn-primary:hover {
+            background: #0056b3 !important;
+        }
+        .btn-danger:hover {
+            background: #bb2d3b !important;
+        }
+        .badge.bg-gradient {
+            background: linear-gradient(90deg,#6dd5ed 0,#2193b0 100%) !important;
+            color: #fff;
+            font-size: 0.87em;
+            letter-spacing: 0.5px;
+            margin-right: 0.23em;
+            box-shadow: 0 2px 8px #6dd5ed55;
+        }
+        tr:hover {
+            background-color: #e7ecfa !important;
+        }
+        .rounded {
+            border-radius: 20px !important;
+        }
+        .shadow-lg {
+            box-shadow: 0 8px 24px #d4e3fa55 !important;
+        }
+    </style>
+{% endblock %}
+

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product index{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Product index</h1>
+        {% include 'layouts/_flash_message.html.twig'%}
+
+
+                    <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Prix</th>
+                        <th>Stock</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if products|length > 0 %}
+                    {% for product in products %}
+                        <tr>
+                            <td>{{ product.id }}</td>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.description | slice(0, 100) }} ...</td>
+                            <td>{{ product.price }}</td>
+                            <td>
+                                {% if product.stock > 0 %}
+                                    {{ product.stock }}
+                                {% else %}
+                                    <span class="text-danger">Rupture de stock</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ path('app_product_show', {'id': product.id}) }}">Voir</a>
+                                <a href="{{ path('app_product_edit', {'id': product.id}) }}">Modifier</a>
+                                <a href="{{ path('app_product_stock_add', {'id': product.id}) }}">Ajouter du stock</a>
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6">No records found</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+
+
+        <a href="{{ path('app_product_new') }}">Create new</a>
+    </div>
+{% endblock %}

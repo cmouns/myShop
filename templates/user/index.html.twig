@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+
+    <div class="container my-5" style="max-width: 1000px;">
+        <h2 class="mb-4 text-center fw-bold text-primary">Liste des utilisateurs</h2>
+        {% include 'layouts/_flash_message.html.twig'%}
+        <div class="rounded shadow-lg overflow-hidden">
+            <table class="table table-borderless align-middle mb-0">
+                <thead style="background: linear-gradient(90deg, #0d6efd 0%, #4f8cff 100%); color: #fff;">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Email</th>
+                        <th>Rôle</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+
+                    <tr style="background-color: #f7f9fb;">
+                        <td class="fw-bold text-secondary">{{ user.id }}</td>
+                        <td>{{ user.lastName }}</td>
+                        <td>{{ user.firstName }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {% for role in user.roles %}
+                                <span class="badge bg-gradient" style="background: linear-gradient(90deg, #6dd5ed, #2193b0); color: #fff;">{{ role }}</span>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% if ('ROLE_ADMIN' not in user.roles) %}
+                                <a href="{{ path('app_users_remove_editor_role', {'id': user.id}) }}" class="btn btn-danger btn-sm rounded-pill px-3" onclick="return confirm('Êtes-vous sûr(e) de vouloir supprimer ?')">Supprimer</a>
+                                <a href="{{ path('app_users_to_editor', {'id': user.id}) }}" class="btn btn-primary btn-sm me-2 rounded-pill px-3" onclick="return confirm('Êtes-vous sûr(e) de vouloir ajouter ce role à cet utilisateur ?')">Modifier</a>
+                            {% endif %}
+                            <a href="{{ path('app_users_remove', {'id': user.id}) }}" class="btn btn-danger btn-sm rounded-pill px-3">Supprimer</a>
+
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="6" class="text-center text-muted py-5 bg-light">Aucun utilisateur trouvé.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <style>
+        
+        h2 {
+            letter-spacing: 1px;
+            text-shadow: 0 2px 12px #4f8cff55;
+        }
+        .table th, .table td {
+            vertical-align: middle !important;
+            font-size: 1.05em;
+        }
+        .table thead th {
+            border-bottom: none !important;
+        }
+        .btn {
+            min-width: 90px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px #d4e3fa44;
+            transition: background 0.22s, color 0.22s;
+        }
+        .btn-primary:hover {
+            background: #0056b3 !important;
+        }
+        .btn-danger:hover {
+            background: #bb2d3b !important;
+        }
+        .badge.bg-gradient {
+            background: linear-gradient(90deg,#6dd5ed 0,#2193b0 100%) !important;
+            color: #fff;
+            font-size: 0.87em;
+            letter-spacing: 0.5px;
+            margin-right: 0.23em;
+            box-shadow: 0 2px 8px #6dd5ed55;
+        }
+        tr:hover {
+            background-color: #e7ecfa !important;
+        }
+        .rounded {
+            border-radius: 20px !important;
+        }
+        .shadow-lg {
+            box-shadow: 0 8px 24px #d4e3fa55 !important;
+        }
+    </style>
+{% endblock %}

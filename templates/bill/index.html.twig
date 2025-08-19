@@ -1,0 +1,140 @@
+{% extends 'base.pdf.html.twig' %}
+
+{% block body %}
+<style>
+    .invoice-container {
+        max-width: 700px;
+        margin: 30px auto;
+        background: #fff;
+        padding: 20px 10px;
+        font-size: 0.95rem;
+        border: 1px solid #e3e6ea;
+    }
+    .invoice-logo {
+        display: block;
+        margin: 0 auto 20px auto;
+        width: 120px;
+        height: 120px;
+        object-fit: contain;
+    }
+    .invoice-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #222;
+        margin-bottom: 10px;
+    }
+    .invoice-date {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 15px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1rem;
+        table-layout: fixed;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 6px 6px;
+        text-align: left;
+        word-break: break-word;
+        font-size: 0.95rem;
+    }
+    th {
+        background: #f2f2f2;
+        font-weight: bold;
+        color: #222;
+    }
+    .section-title {
+        font-size: 1.05rem;
+        font-weight: bold;
+        color: #222;
+        margin-bottom: 0.5rem;
+        margin-top: 1.2rem;
+    }
+    .order-summary {
+        margin-top: 1.2rem;
+        font-size: 1rem;
+        color: #222;
+    }
+    .total-amount {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #0d6efd;
+        margin-top: 1rem;
+        letter-spacing: 0.5px;
+    }
+    .col-name { width: 30%; }
+    .col-desc { width: 30%; }
+    .col-price { width: 15%; }
+    .col-qty { width: 12.5%; text-align: center; }
+    .col-total { width: 12.5%; text-align: center; }
+</style>
+
+<div class="invoice-container">
+    <img src="/uploads/images/logo.png" alt="Logo" class="invoice-logo">
+    <div>
+        <span class="invoice-title">Facture n° {{ orders.id }}</span><br>
+        <span class="invoice-date">Date de la commande : {{ orders.createdAt|date('d/m/Y') }}</span>
+    </div>
+    <hr>
+    <div class="section-title">Informations du client</div>
+    <table>
+        <tr>
+            <th>Nom</th>
+            <td>{{ orders.lastName }}</td>
+            <th>Prénom</th>
+            <td>{{ orders.firstName }}</td>
+        </tr>
+        <tr>
+            <th>Téléphone</th>
+            <td>{{ orders.phone }}</td>
+            <th>Adresse</th>
+            <td>{{ orders.adress }}</td>
+        </tr>
+        <tr>
+            <th>Ville</th>
+            <td colspan="3">{{ orders.city.name }}</td>
+        </tr>
+    </table>
+    <div class="section-title">Détails de la commande</div>
+    <table>
+        <thead>
+            <tr>
+                <th class="col-name">Nom du produit</th>
+                <th class="col-desc">Description</th>
+                <th class="col-price">Prix unitaire</th>
+                <th class="col-qty">Quantité</th>
+                <th class="col-total">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in orders.orderProducts %}
+                <tr>
+                    <td class="col-name">
+                        {{ product.product.name|length > 50 
+                            ? product.product.name|slice(0,47) ~ '...' 
+                            : product.product.name 
+                        }}
+                    </td>
+                    <td class="col-desc">
+                        {{ product.product.description|length > 60 
+                            ? product.product.description|slice(0,57) ~ '...' 
+                            : product.product.description 
+                        }}
+                    </td>
+                    <td class="col-price">{{ product.product.price }} €</td>
+                    <td class="col-qty">{{ product.quantity }}</td>
+                    <td class="col-total">{{ product.product.price * product.quantity }} €</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="order-summary">
+        <p>Frais de livraison : <strong>{{ orders.city.shippingCost }} €</strong></p>
+        <hr>
+        <div class="total-amount">Total à payer : {{ orders.totalPrice }} €</div>
+    </div>
+</div>
+{% endblock %}

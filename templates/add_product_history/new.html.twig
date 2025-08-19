@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New AddProductHistory{% endblock %}
+
+{% block body %}
+    <h1>Create new AddProductHistory</h1>
+
+    {{ include('add_product_history/_form.html.twig') }}
+
+    <a href="{{ path('app_add_product_history_index') }}">back to list</a>
+{% endblock %}

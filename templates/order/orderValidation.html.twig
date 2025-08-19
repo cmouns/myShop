@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande validée{% endblock %}
+
+{% block body %}
+<style>
+    .confirmation-bg {
+        background: linear-gradient(135deg, #e9f7ef 0%, #f8f9fa 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .confirmation-card {
+        background: #fff;
+        border-radius: 1.5rem;
+        box-shadow: 0 8px 32px rgba(60, 60, 60, 0.12);
+        padding: 3rem 2rem;
+        max-width: 420px;
+        width: 100%;
+        text-align: center;
+        animation: fadeInUp 0.7s;
+    }
+    .confirmation-icon {
+        background: linear-gradient(135deg, #38d996 0%, #198754 100%);
+        color: #fff;
+        border-radius: 50%;
+        width: 90px;
+        height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem auto;
+        font-size: 2.7rem;
+        box-shadow: 0 4px 16px rgba(56, 217, 150, 0.15);
+    }
+    .confirmation-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #198754;
+        margin-bottom: 1rem;
+    }
+    .confirmation-text {
+        color: #6c757d;
+        font-size: 1.15rem;
+        margin-bottom: 2rem;
+    }
+    .confirmation-actions .btn {
+        min-width: 160px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0.5rem 0.25rem;
+        border-radius: 0.7rem;
+        transition: box-shadow 0.2s;
+    }
+    .confirmation-actions .btn-success {
+        box-shadow: 0 2px 8px rgba(56, 217, 150, 0.12);
+    }
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(40px);}
+        to { opacity: 1; transform: translateY(0);}
+    }
+</style>
+
+<div class="confirmation-bg">
+    <div class="confirmation-card">
+        <div class="confirmation-icon">
+            <i class="bi bi-bag-check-fill"></i>
+        </div>
+        <div class="confirmation-title">Merci pour votre commande ! 🎉</div>
+        <div class="confirmation-text">
+            Votre achat a été confirmé.<br>
+            Nous préparons votre colis avec soin.<br>
+            <span style="color:#38d996;">Un email de confirmation vous a été envoyé.</span>
+        </div>
+        <div class="confirmation-actions">
+            <a href="{{ path('app_home_page') }}" class="btn btn-success">
+                Retour à l’accueil
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
