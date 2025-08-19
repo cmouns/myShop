@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement refusé{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-lg border-danger">
+                <div class="card-header bg-danger text-white text-center">
+                    <h2 class="mb-0"><i class="bi bi-x-circle-fill"></i> Paiement refusé</h2>
+                </div>
+                <div class="card-body text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/463/463612.png" alt="Paiement refusé" width="80" class="mb-4">
+                    <h4 class="mb-3 text-danger">Votre paiement n'a pas pu être validé.</h4>
+                    <p class="mb-4">Une erreur est survenue lors du traitement de votre paiement.<br>
+                    Veuillez vérifier vos informations bancaires ou réessayer plus tard.</p>
+                    <a href="{{ path('app_order') }}" class="btn btn-outline-danger btn-lg me-2">
+                        <i class="bi bi-arrow-left"></i> Revenir à la commande
+                    </a>
+                    <a href="https://support.stripe.com/" target="_blank" class="btn btn-link">Besoin d'aide ?</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

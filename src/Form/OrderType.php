@@ -30,6 +30,12 @@ class OrderType extends AbstractType
                 'label' => 'Nom',
                 'attr' => ['class'=>'form-control mb-3', 'placeholder' => 'Nom']
             ])
+            ->add('email', null, [
+                'required' => true,
+                'label' => 'Adresse e-mail',
+                'attr' => ['class'=>'form-control mb-3', 'placeholder' => 'Email']
+            ])
+
             ->add('phone', null, [
                 'required' => true,
                 'label' => 'Téléphone',

@@ -7,18 +7,13 @@ use App\Entity\Order;
 use App\Service\Cart;
 use App\Form\OrderType;
 use App\Entity\OrderProducts;
-<<<<<<< HEAD
 use Symfony\Component\Mime\Email;
-=======
->>>>>>> fca17ab93e39041350a228c271fab3558ab39285
 use App\Repository\OrderRepository;
+use App\Service\StripePayment;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
-<<<<<<< HEAD
 use Symfony\Component\Mailer\MailerInterface;
-=======
->>>>>>> fca17ab93e39041350a228c271fab3558ab39285
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -27,12 +22,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 // Contrôleur final pour la gestion des commandes
 final class OrderController extends AbstractController
 {
-<<<<<<< HEAD
     public function __construct(private MailerInterface $mailer){
 
     }
-=======
->>>>>>> fca17ab93e39041350a228c271fab3558ab39285
     // Route pour afficher et traiter le formulaire de commande
     #[Route('/order', name: 'app_order')]
     public function index(Request $request,SessionInterface $session,EntityManagerInterface $em,Cart $cart): Response {
@@ -44,46 +36,48 @@ final class OrderController extends AbstractController
         $form->handleRequest($request); // Traite la soumission du formulaire
 
         if ($form->isSubmitted() && $form->isValid()) { // Si le formulaire est soumis et valide
-            if ($order->isPayOnDelivery()) { // Si le paiement est à la livraison
-                if(!empty($data['total'])) {
-                    $order->setTotalPrice($data['total']); // Définit le prix total de la commande
-                    $order->setCreatedAt(new \DateTimeImmutable()); // Définit la date de création
-                    $em->persist($order); // Prépare la commande à être enregistrée
-                    $em->flush(); // Enregistre la commande (nécessaire pour avoir l'ID)
+            if (!empty($data['total'])) {
+                $order->setTotalPrice($data['total']);
+                $order->setCreatedAt(new \DateTimeImmutable());
+                $em->persist($order);
+                $em->flush();
 
-                    // Pour chaque produit du panier, on crée une liaison commande-produit
-                    foreach ($data['cart'] as $value) {
-                        $orderProduct = new OrderProducts(); // Crée la liaison
-                        $orderProduct->setOrder($order); // Lie à la commande
-                        $orderProduct->setProduct($value['product']); // Lie au produit
-                        $orderProduct->setQuantity($value['quantity']); // Définit la quantité
-                        $em->persist($orderProduct); // Prépare à enregistrer
-                        // On ne flush pas ici, on attend la fin de la boucle
-                    }
-                    $em->flush(); // Enregistre tous les OrderProducts en une seule fois
+                foreach ($data['cart'] as $value) {
+                    $orderProduct = new OrderProducts();
+                    $orderProduct->setOrder($order);
+                    $orderProduct->setProduct($value['product']);
+                    $orderProduct->setQuantity($value['quantity']);
+                    $em->persist($orderProduct);
                 }
-                
+                $em->flush();
             }
-            // Vide le panier
+
             $session->set('cart', []);
 
-<<<<<<< HEAD
-            $html = $this->renderView('mail/orderConfirm.html.twig',[
-                'order'=>$order
-            ]);
-            $email = (new Email())
-            ->from('hi@demomailtrap.co')
-            ->to('mounir.sebti33@gmail.com')
-            ->subject('Confirmation de réception de commande')
-            ->html($html);
-            $this->mailer->send($email);
+            if ($order->isPayOnDelivery()) {
+                // Paiement en main propre
+                $html = $this->renderView('mail/orderConfirm.html.twig', [
+                    'orders' => $order
+                ]);
+                $email = (new Email())
+                    ->from('hi@demomailtrap.co')
+                    ->to($order->getEmail())
+                    ->subject('Confirmation de réception de commande')
+                    ->html($html);
+                $this->mailer->send($email);
 
-=======
->>>>>>> fca17ab93e39041350a228c271fab3558ab39285
-            // Redirige vers le panier
-            return $this->redirectToRoute('app_order_validation');
+                return $this->redirectToRoute('app_order_validation');
+            } else {
+                // Paiement Stripe
+                $paymentStripe = new StripePayment();
+                $shippingCost = $order->getCity() ? $order->getCity()->getShippingCost() : 0;
+                $paymentStripe->startPayment($data, $shippingCost, $order->getId());
+                $stripeRedirectUrl = $paymentStripe->getStripeRedirectUrl();
+
+                return $this->redirect($stripeRedirectUrl);
+            }
         }
-    
+
         // Affiche la page avec le formulaire et le total
         return $this->render('order/index.html.twig', [
             'form' => $form->createView(),

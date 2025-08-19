@@ -23,6 +23,10 @@
                 }) }}
                 {{ form_errors(form.lastName) }}
 
+                {{ form_widget(form.email, {
+                }) }}
+                {{ form_errors(form.email) }}
+
                 {{ form_widget(form.adress, {
                 }) }}
                 {{ form_errors(form.adress) }}
@@ -35,7 +39,7 @@
                 }) }}
                 {{ form_errors(form.phone) }}
 
-                <button class="btn btn-lg btn-primary w-100" type="submit">Continuer</button>
+                <button class="btn btn-lg btn-primary w-100" type="submit" data-turbo = "false" >Continuer</button>
 
             {{ form_end(form) }}
         </div>

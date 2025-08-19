@@ -1,0 +1,146 @@
+{
+  "id": "evt_3Rxpmo8Sjjv6mccd0kdE696Y",
+  "object": "event",
+  "api_version": "2025-07-30.basil",
+  "created": 1755610877,
+  "data": {
+    "object": {
+      "id": "ch_3Rxpmo8Sjjv6mccd0g8B5KmL",
+      "object": "charge",
+      "amount": 100099,
+      "amount_captured": 100099,
+      "amount_refunded": 0,
+      "application": null,
+      "application_fee": null,
+      "application_fee_amount": null,
+      "balance_transaction": "txn_3Rxpmo8Sjjv6mccd0ftaaEG9",
+      "billing_details": {
+        "address": {
+          "city": "Merignac",
+          "country": "FR",
+          "line1": "Résidence crous clairefontaine ,BAT A",
+          "line2": "13 rue francisco ferrer",
+          "postal_code": "33700",
+          "state": null
+        },
+        "email": "mounir.sebti33@gmail.com",
+        "name": "Mounir SEBTI",
+        "phone": null,
+        "tax_id": null
+      },
+      "calculated_statement_descriptor": "Stripe",
+      "captured": true,
+      "created": 1755610874,
+      "currency": "eur",
+      "customer": null,
+      "description": null,
+      "destination": null,
+      "dispute": null,
+      "disputed": false,
+      "failure_balance_transaction": null,
+      "failure_code": null,
+      "failure_message": null,
+      "fraud_details": {},
+      "livemode": false,
+      "metadata": {
+        "orderId": "32"
+      },
+      "on_behalf_of": null,
+      "order": null,
+      "outcome": {
+        "advice_code": null,
+        "network_advice_code": null,
+        "network_decline_code": null,
+        "network_status": "approved_by_network",
+        "reason": null,
+        "risk_level": "normal",
+        "risk_score": 48,
+        "seller_message": "Payment complete.",
+        "type": "authorized"
+      },
+      "paid": true,
+      "payment_intent": "pi_3Rxpmo8Sjjv6mccd0AElEQfN",
+      "payment_method": "pm_1Rxpmn8Sjjv6mccd8n9Er0fu",
+      "payment_method_details": {
+        "card": {
+          "amount_authorized": 100099,
+          "authorization_code": "190994",
+          "brand": "visa",
+          "checks": {
+            "address_line1_check": "pass",
+            "address_postal_code_check": "pass",
+            "cvc_check": "pass"
+          },
+          "country": "US",
+          "exp_month": 7,
+          "exp_year": 2052,
+          "extended_authorization": {
+            "status": "disabled"
+          },
+          "fingerprint": "5iblHymI9Q8BfS9J",
+          "funding": "credit",
+          "incremental_authorization": {
+            "status": "unavailable"
+          },
+          "installments": null,
+          "last4": "4242",
+          "mandate": null,
+          "multicapture": {
+            "status": "unavailable"
+          },
+          "network": "visa",
+          "network_token": {
+            "used": false
+          },
+          "network_transaction_id": "531059810872121",
+          "overcapture": {
+            "maximum_amount_capturable": 100099,
+            "status": "unavailable"
+          },
+          "regulated_status": "unregulated",
+          "three_d_secure": null,
+          "wallet": null
+        },
+        "type": "card"
+      },
+      "radar_options": {},
+      "receipt_email": null,
+      "receipt_number": null,
+      "receipt_url": "https://pay.stripe.com/receipts/payment/CAcaFwoVYWNjdF8xUnhsSUE4U2pqdjZtY2NkKP39kcUGMgYh1YsopKM6LBbHZQN6_wJGLkfqWwl6lvxv_vF8Fob6_mQn4SZvPbGumXs-git7fk0qTUdZ",
+      "refunded": false,
+      "review": null,
+      "shipping": {
+        "address": {
+          "city": "Merignac",
+          "country": "FR",
+          "line1": "Résidence crous clairefontaine ,BAT A",
+          "line2": "13 rue francisco ferrer",
+          "postal_code": "33700",
+          "state": null
+        },
+        "carrier": null,
+        "name": "Mounir SEBTI",
+        "phone": null,
+        "tracking_number": null
+      },
+      "source": null,
+      "source_transfer": null,
+      "statement_descriptor": null,
+      "statement_descriptor_suffix": null,
+      "status": "succeeded",
+      "transfer_data": null,
+      "transfer_group": null
+    },
+    "previous_attributes": {
+      "balance_transaction": null,
+      "receipt_url": "https://pay.stripe.com/receipts/payment/CAcaFwoVYWNjdF8xUnhsSUE4U2pqdjZtY2NkKP39kcUGMgaCcyGHN8g6LBaQ3wrK-tmHRPpHWh7oMMgoI4KktgTD4eo2HphhB-q5xnm-qf2JdZf_tQAI"
+    }
+  },
+  "livemode": false,
+  "pending_webhooks": 2,
+  "request": {
+    "id": null,
+    "idempotency_key": null
+  },
+  "type": "charge.updated"
+}
