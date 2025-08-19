@@ -7,12 +7,18 @@ use App\Entity\Order;
 use App\Service\Cart;
 use App\Form\OrderType;
 use App\Entity\OrderProducts;
+<<<<<<< HEAD
 use Symfony\Component\Mime\Email;
+=======
+>>>>>>> fca17ab93e39041350a228c271fab3558ab39285
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+<<<<<<< HEAD
 use Symfony\Component\Mailer\MailerInterface;
+=======
+>>>>>>> fca17ab93e39041350a228c271fab3558ab39285
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -21,9 +27,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 // Contrôleur final pour la gestion des commandes
 final class OrderController extends AbstractController
 {
+<<<<<<< HEAD
     public function __construct(private MailerInterface $mailer){
 
     }
+=======
+>>>>>>> fca17ab93e39041350a228c271fab3558ab39285
     // Route pour afficher et traiter le formulaire de commande
     #[Route('/order', name: 'app_order')]
     public function index(Request $request,SessionInterface $session,EntityManagerInterface $em,Cart $cart): Response {
@@ -58,6 +67,7 @@ final class OrderController extends AbstractController
             // Vide le panier
             $session->set('cart', []);
 
+<<<<<<< HEAD
             $html = $this->renderView('mail/orderConfirm.html.twig',[
                 'order'=>$order
             ]);
@@ -68,6 +78,8 @@ final class OrderController extends AbstractController
             ->html($html);
             $this->mailer->send($email);
 
+=======
+>>>>>>> fca17ab93e39041350a228c271fab3558ab39285
             // Redirige vers le panier
             return $this->redirectToRoute('app_order_validation');
         }
