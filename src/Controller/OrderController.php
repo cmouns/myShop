@@ -7,10 +7,12 @@ use App\Entity\Order;
 use App\Service\Cart;
 use App\Form\OrderType;
 use App\Entity\OrderProducts;
+use Symfony\Component\Mime\Email;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -19,6 +21,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 // Contrôleur final pour la gestion des commandes
 final class OrderController extends AbstractController
 {
+    public function __construct(private MailerInterface $mailer){
+
+    }
     // Route pour afficher et traiter le formulaire de commande
     #[Route('/order', name: 'app_order')]
     public function index(Request $request,SessionInterface $session,EntityManagerInterface $em,Cart $cart): Response {
@@ -52,6 +57,16 @@ final class OrderController extends AbstractController
             }
             // Vide le panier
             $session->set('cart', []);
+
+            $html = $this->renderView('mail/orderConfirm.html.twig',[
+                'order'=>$order
+            ]);
+            $email = (new Email())
+            ->from('hi@demomailtrap.co')
+            ->to('mounir.sebti33@gmail.com')
+            ->subject('Confirmation de réception de commande')
+            ->html($html);
+            $this->mailer->send($email);
 
             // Redirige vers le panier
             return $this->redirectToRoute('app_order_validation');
