@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produits{% endblock %}
+
+{% block body %}
+<div class="container">
+  <h1 class="mb-5 mt-5">Résultats de la recherche du mot " {{ word }} "</h1>
+    <div class="row">
+        {% for product in products %}
+      <div class="col-md-3 mb-4 d-flex">
+        <div class="card h-100 w-100 d-flex flex-column">
+            <div class="card-img-top ratio ratio-4x3 bg-light rounded-top" style="overflow: hidden;">
+                <img 
+                src="{{ asset('uploads/images/' ~ product.image) }}" 
+                alt="{{ product.name }}" 
+                class="img-fluid h-100 w-100"
+                style="object-fit: contain; background: #f8f9fa;">
+            </div>
+            <div class="card-body d-flex flex-column">
+                <a href="{{ path('app_home_product_show',{'id':product.id}) }}"<h5 class="card-title titleProduct" style="min-height:2.4em">{{ product.name }}</h5>
+                <h3>{{product.price}}€</h3>
+                <a href="{{ path('app_cart_new',{'id':product.id}) }}" class="btn btn-outline-success mt-auto w-150">Ajouter au panier</a>
+                
+            </div>
+        </div>
+    </div>
+    {% endfor %}  
+</div>
+{% endblock %}

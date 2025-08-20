@@ -23,7 +23,9 @@ final class HomePageController extends AbstractController
             $request->query->getInt('page', 1),
             8
         );
-
+        $search = $repo->searchEngine('big');
+        
+        
         return $this->render('home_page/index.html.twig', [
             'products' => $products,
             'categories' => $categoryRepo->findAll(),

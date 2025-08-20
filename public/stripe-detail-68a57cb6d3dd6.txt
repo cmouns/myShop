@@ -1,0 +1,68 @@
+Stripe\PaymentIntent JSON: {
+    "id": "pi_3Ry6gT8Sjjv6mccd1HHb3NqD",
+    "object": "payment_intent",
+    "amount": 100099,
+    "amount_capturable": 0,
+    "amount_details": {
+        "tip": []
+    },
+    "amount_received": 100099,
+    "application": null,
+    "application_fee_amount": null,
+    "automatic_payment_methods": null,
+    "canceled_at": null,
+    "cancellation_reason": null,
+    "capture_method": "automatic_async",
+    "client_secret": "pi_3Ry6gT8Sjjv6mccd1HHb3NqD_secret_4QkRCzjn4fyGtHBdEWlShdSoA",
+    "confirmation_method": "automatic",
+    "created": 1755675829,
+    "currency": "eur",
+    "customer": null,
+    "description": null,
+    "excluded_payment_method_types": null,
+    "last_payment_error": null,
+    "latest_charge": "ch_3Ry6gT8Sjjv6mccd1rJDeQad",
+    "livemode": false,
+    "metadata": {
+        "orderId": "51"
+    },
+    "next_action": null,
+    "on_behalf_of": null,
+    "payment_method": "pm_1Ry6gT8Sjjv6mccdEXdH1Zcj",
+    "payment_method_configuration_details": null,
+    "payment_method_options": {
+        "card": {
+            "installments": null,
+            "mandate_options": null,
+            "network": null,
+            "request_three_d_secure": "automatic"
+        }
+    },
+    "payment_method_types": [
+        "card"
+    ],
+    "processing": null,
+    "receipt_email": null,
+    "review": null,
+    "setup_future_usage": null,
+    "shipping": {
+        "address": {
+            "city": "Merignac",
+            "country": "FR",
+            "line1": "R\u00e9sidence crous clairefontaine ,BAT A",
+            "line2": "13 rue francisco ferrer",
+            "postal_code": "33700",
+            "state": null
+        },
+        "carrier": null,
+        "name": "Mounir SEBTI",
+        "phone": null,
+        "tracking_number": null
+    },
+    "source": null,
+    "statement_descriptor": null,
+    "statement_descriptor_suffix": null,
+    "status": "succeeded",
+    "transfer_data": null,
+    "transfer_group": null
+}
