@@ -2,15 +2,14 @@
 
 namespace App\Controller;
 
+use Stripe\Stripe;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Service\Cart;
-use Stripe\Stripe;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class StripeController extends AbstractController
 {
@@ -73,7 +72,7 @@ class StripeController extends AbstractController
                 $fileName = 'stripe-detail-' . uniqid() . '.txt';
                 $orderId = $paymentIntent->metadata->orderId;
                 $order = $orderRepository->find($orderId);
-
+                
                 $cartPrice = $order->getTotalPrice();
                 $stripeTotalAmount = $paymentIntent->amount/100;
                 if($cartPrice==$stripeTotalAmount) {
@@ -82,8 +81,11 @@ class StripeController extends AbstractController
                     $entityManager->flush();
                 }
                 
+                    foreach ($order->getOrderProducts() as $orderProduct) {
+                        $orderProduct->getProduct()->setStock($orderProduct->getProduct()->getStock() - $orderProduct->getQuantity());
+                        $entityManager->flush(); 
+                    }
                 
-                // file_put_contents($fileName, $orderId);
 
                 break;
             case 'payment_method.attached' :
@@ -93,7 +95,7 @@ class StripeController extends AbstractController
             default :
                 break;
         }
-
+        
         return new Response('Événement reçu avec succès', 200);
     }
 }

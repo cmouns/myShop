@@ -56,6 +56,7 @@ final class OrderController extends AbstractController
             
 
             if ($order->isPayOnDelivery()) {
+                dd($order);
 
                 $session->set('cart', []);
                 // Paiement en main propre
