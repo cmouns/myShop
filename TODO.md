@@ -9,7 +9,7 @@ W - Won't (have)
 
 - S : Gestion du stock,
 
-    - Enlever la quantité d'article commandé dans le stock actuel (is on delivery)
+    - Enlever la quantité d'article commandé dans le stock actuel
     - Limiter l'ajout d'article selon la quantité max du stock dans le panier
     - Bloquer le panier si le stock n'est plus disponible
     - 

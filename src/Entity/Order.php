@@ -138,17 +138,7 @@ class Order
         return $this;
     }
 
-    public function isPayOnDelivery(): ?bool
-    {
-        return $this->payOnDelivery;
-    }
-
-    public function setPayOnDelivery(bool $payOnDelivery): static
-    {
-        $this->payOnDelivery = $payOnDelivery;
-
-        return $this;
-    }
+    
 
     /**
      * @return Collection<int, OrderProducts>

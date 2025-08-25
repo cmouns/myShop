@@ -55,23 +55,23 @@ final class OrderController extends AbstractController
 
             
 
-            if ($order->isPayOnDelivery()) {
-                dd($order);
+            // if ($order->isPayOnDelivery()) {
+            //     dd($order);
 
-                $session->set('cart', []);
-                // Paiement en main propre
-                $html = $this->renderView('mail/orderConfirm.html.twig', [
-                    'orders' => $order
-                ]);
-                $email = (new Email())
-                    ->from('shoptafigurine@gmail.com')
-                    ->to($order->getEmail())
-                    ->subject('Confirmation de réception de commande')
-                    ->html($html);
-                $this->mailer->send($email);
+            //     $session->set('cart', []);
+            //     // Paiement en main propre
+            //     $html = $this->renderView('mail/orderConfirm.html.twig', [
+            //         'orders' => $order
+            //     ]);
+            //     $email = (new Email())
+            //         ->from('shoptafigurine@gmail.com')
+            //         ->to($order->getEmail())
+            //         ->subject('Confirmation de réception de commande')
+            //         ->html($html);
+            //     $this->mailer->send($email);
 
-                return $this->redirectToRoute('app_order_validation');
-            } else {
+            //     return $this->redirectToRoute('app_order_validation');
+            // } else {
                 // Paiement Stripe
                 $paymentStripe = new StripePayment();
                 $shippingCost = $order->getCity() ? $order->getCity()->getShippingCost() : 0;
@@ -79,7 +79,7 @@ final class OrderController extends AbstractController
                 $stripeRedirectUrl = $paymentStripe->getStripeRedirectUrl();
 
                 return $this->redirect($stripeRedirectUrl);
-            }
+            
         }
 
         // Affiche la page avec le formulaire et le total
