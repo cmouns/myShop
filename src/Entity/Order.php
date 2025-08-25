@@ -35,9 +35,6 @@ class Order
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
-    private ?bool $payOnDelivery = null;
-
     /**
      * @var Collection<int, OrderProducts>
      */

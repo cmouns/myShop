@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -40,18 +41,26 @@ final class CartController extends AbstractController
     }
 
     #[Route('/cart/add/{id}', name: 'app_cart_new' , methods : ['GET'])]
-    public function addProductCart(int $id, SessionInterface $session ): Response //int $id oblige à n'accepter que des entiers
+    public function addProductCart(int $id, SessionInterface $session, Product $product): Response //int $id oblige à n'accepter que des entiers
     {
         // Vérifier si le produit existe
         $cart = $session->get('cart', []);
-
-        // Si le produit est déjà dans le panier, on incrémente la quantité
-       if(!empty($cart[$id])) {
-            $cart[$id]++;
-        // Sinon, on l'ajoute avec une quantité de 1 car il n'est pas encore dans le panier
-        } else {
-            $cart[$id] = 1;
+        if (!isset($cart[$id]) && $product->getStock() > 0 || $cart[$id] < $product->getStock()) {
+            if(!empty($cart[$id])) {
+                $cart[$id]++;
+            // Sinon, on l'ajoute avec une quantité de 1 car il n'est pas encore dans le panier
+            } else {
+                $cart[$id] = 1;
+            }
+        }else{
+            $this->addFlash('danger', 'Le stock est insuffisant pour ajouter plus de ce produit !');
+            return $this->redirectToRoute('app_home_page');
         }
+        // Si le produit est déjà dans le panier, on incrémente la quantité
+        // if ($product->getStock() > $cart[$id]) {
+            
+        // }
+       
         // Enregistrer le panier dans la session
         // On utilise la méthode set pour mettre à jour le panier dans la session
         // Si le panier n'existe pas, on le crée avec un tableau vide

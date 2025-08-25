@@ -5,6 +5,7 @@
 {% block body %}
 <div class="container">
   <h1 class="mb-5 mt-5">Produits</h1>
+  {% include 'layouts/_flash_message.html.twig'%}
     <div class="row">
         {% for product in products %}
       <div class="col-md-3 mb-4 d-flex">
