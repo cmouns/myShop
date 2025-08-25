@@ -33,7 +33,7 @@
                         <tr>
                             <td>{{ product.products.name }}</td>
                             <td class="text-end">{{ product.products.price|number_format(2, ',', ' ') }} €</td>
-                            <td class="text-center">{{ product.quantity }}</td>
+                            <td class="text-center"><input type="number" min=1 step=1 value="{{ product.quantity }}" max={{ product.products.stock }}></td>
                             <td class="text-end">{{ (product.products.price * product.quantity)|number_format(2, ',', ' ') }} €</td>
                             <td class="text-center">
                                 

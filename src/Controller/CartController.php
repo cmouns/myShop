@@ -45,6 +45,7 @@ final class CartController extends AbstractController
     {
         // Vérifier si le produit existe
         $cart = $session->get('cart', []);
+        
         if (!isset($cart[$id]) && $product->getStock() > 0 || $cart[$id] < $product->getStock()) {
             if(!empty($cart[$id])) {
                 $cart[$id]++;
@@ -52,6 +53,7 @@ final class CartController extends AbstractController
             } else {
                 $cart[$id] = 1;
             }
+
         }else{
             $this->addFlash('danger', 'Le stock est insuffisant pour ajouter plus de ce produit !');
             return $this->redirectToRoute('app_home_page');
