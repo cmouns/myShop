@@ -1,12 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter du stock{% endblock %}
+{% block title %}Gerer le stock{% endblock %}
 
 {% block body %}
 <div class="container">
-    <h1 class="mt-5 mb-5">Ajouter du stock pour : {{ product.name }}</h1>
+    <h1 class="mt-5 mb-5">Gerer le stock pour : {{ product.name }}</h1>
     {{ form_start(form) }}
-        {{ form_row(form.quantity, {'attr':{'class':'form form-control mb-3'}}) }}
+        <label for="stock">Quantité du stock actuel</label><br>
+        <input type="text" name="stock" disabled=true class="form form-control mb-3" value="{{ product.stock }}">
+        <br>
+        {{ form_row(form.quantity, {'attr':{value:product.stock, 'class':'form form-control mb-3'}}) }}
+        
         <input type="submit" class="btn btn-success btn-block">
     {{ form_end(form) }}
 </div>

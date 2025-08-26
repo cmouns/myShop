@@ -5,57 +5,63 @@
 {% block body %}
 {% include 'layouts/_flash_message.html.twig'%}
 <div class="container my-5">
-    <div class="d-flex justify-content-start mt-3 ">
+    <div class="d-flex justify-content-start mt-3">
         <a href="/" class="btn btn-sm btn-outline-danger">Retour</a>
     </div>
-    <h1 class="mb-4 text-center fw-bold text-primary">Mon Panier</h1>
-    {% include 'layouts/_flash_message.html.twig'%}
 
+    <h1 class="mb-4 text-center fw-bold text-primary">Mon Panier</h1>
 
     {% if item is empty %}
         <div class="alert alert-info text-center" role="alert">
             Votre panier est vide.
         </div>
     {% else %}
-        <div class="table-responsive">
-            <table class="table table-hover align-middle">
-                <thead class="table-light">
-                    <tr>
-                        <th scope="col">Produit</th>
-                        <th scope="col" class="text-end">Prix unitaire</th>
-                        <th scope="col" class="text-center">Quantité</th>
-                        <th scope="col" class="text-end">Prix total</th>
-                        <th scope="col" class="text-center">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for product in item %}
+        <form method="post" action="{{ path('app_cart_update') }}">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
                         <tr>
-                            <td>{{ product.products.name }}</td>
-                            <td class="text-end">{{ product.products.price|number_format(2, ',', ' ') }} €</td>
-                            <td class="text-center"><input type="number" min=1 step=1 value="{{ product.quantity }}" max={{ product.products.stock }}></td>
-                            <td class="text-end">{{ (product.products.price * product.quantity)|number_format(2, ',', ' ') }} €</td>
-                            <td class="text-center">
-                                
-                                <a href="{{ path('app_cart_product_remove',{'id':product.products.id}) }}" class="btn btn-sm btn-outline-danger" title="Supprimer du panier">
-                                    <i class="bi bi-trash"></i> X
-                                </a>
-                            </td>
+                            <th scope="col">Produit</th>
+                            <th scope="col" class="text-end">Prix unitaire</th>
+                            <th scope="col" class="text-center">Quantité</th>
+                            <th scope="col" class="text-end">Prix total</th>
+                            <th scope="col" class="text-center">Actions</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        {% for product in item %}
+                            <tr>
+                                <td>{{ product.product.name }}</td>
+                                <td class="text-end">{{ product.product.price|number_format(2, ',', ' ') }} €</td>
+                                <td class="text-center">
+                                    <input type="number"
+                                           name="quantities[{{ product.product.id }}]"
+                                           value="{{ product.quantity }}"
+                                           min="1"
+                                           max="{{ product.product.stock }}"
+                                           class="form-control"
+                                           onchange="this.form.submit()">
+                                </td>
+                                <td class="text-end">{{ (product.product.price * product.quantity)|number_format(2, ',', ' ') }} €</td>
+                                <td class="text-center">
+                                    <a href="{{ path('app_cart_product_remove',{'id':product.product.id}) }}" class="btn btn-sm btn-outline-danger" title="Supprimer du panier">
+                                        <i class="bi bi-trash"></i> X
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </form>
         {% if total > 0 %}
             <div class="d-flex justify-content-end align-items-center mt-4">
                 <h4 class="me-3">Total :</h4>
                 <h4 class="text-primary fw-bold">{{ total|number_format(2, ',', ' ') }} €</h4>
             </div>
-
             <div class="d-flex justify-content-end mt-3">
                 <a href="{{ path('app_cart_remove') }}" class="btn btn-outline-danger btn-lg">Supprimer le panier</a>
-                <a href="{{ path('app_order') }}"  class="btn btn-success btn-lg" data-turbo ="false">Passer à la caisse</a>
-
+                <a href="{{ path('app_order') }}" class="btn btn-success btn-lg" data-turbo="false">Passer à la caisse</a>
             </div>
         {% endif %}
     {% endif %}

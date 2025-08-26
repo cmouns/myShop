@@ -14,8 +14,9 @@ class AddProductHistoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quantity')
-        ;
+            ->add('quantity' , null, [
+                'label' => 'Quantité du nouveau stock',
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

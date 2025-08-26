@@ -93,9 +93,8 @@ final class AddProductHistoryController extends AbstractController
     $product = $repo->find($id);
     if ($form->isSubmitted() && $form->isValid()) {
         if($stockAdd->getQuantity()>0){
-            $newQuantity = $product->getStock() + $stockAdd->getQuantity();
+            $newQuantity = $stockAdd->getQuantity();
             $product->setStock($newQuantity);
-
             $stockAdd->setCreatedAt(new DateTimeImmutable());
             $stockAdd->setProduct($product);
             $em->persist($stockAdd);

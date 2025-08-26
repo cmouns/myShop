@@ -15,14 +15,24 @@ readonly class Cart
     {
         $cart = $session->get('cart', []);
         $cartWithData = [];
+        $errors = [];
 
         foreach ($cart as $id => $quantity) {
             $product = $this->productRepository->find($id);
-            if ($product) { // Vérifie que le produit existe
+            if ($product) {
+                $stock = $product->getStock();
                 $cartWithData[] = [
                     'product' => $product,
-                    'quantity' => $quantity
+                    'quantity' => $quantity,
+                    'stock' => $stock
                 ];
+
+                if ($quantity > $stock) {
+                    $errors[] = [
+                        'name' => $product->getName(),
+                        'max' => $stock
+                    ];
+                }
             }
         }
 
@@ -32,7 +42,8 @@ readonly class Cart
 
         return [
             'cart' => $cartWithData,
-            'total' => $total
+            'total' => $total,
+            'errors' => $errors
         ];
     }
 }
