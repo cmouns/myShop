@@ -110,14 +110,11 @@ final class OrderController extends AbstractController
     #[Route('/editor/order/{type}', name: 'app_orders_show')]
     public function getAllOrder($type, OrderRepository $orderRepo, PaginatorInterface $paginator, Request $request): Response
     {
-        if ($type == 'is-completed') {
-            $data = $orderRepo->findBy(['isCompleted' => 1], ['id' => 'DESC']);
-        } else if ($type == 'pay-on-stripe-not-delivered') {
-            $data = $orderRepo->findBy(['isCompleted' => null, 'payOnDelivery' => 0, 'isPaymentCompleted' => 1], ['id' => 'DESC']);
+        
+        if ($type == 'pay-on-stripe-not-delivered') {
+            $data = $orderRepo->findBy(['isCompleted' => null, 'isPaymentCompleted' => 1], ['id' => 'DESC']);
         } else if ($type == 'pay-on-stripe-is-delivered') {
-            $data = $orderRepo->findBy(['isCompleted' => 1, 'payOnDelivery' => 0, 'isPaymentCompleted' => 1], ['id' => 'DESC']);
-        } else if ($type == 'no_delivery') {
-            $data = $orderRepo->findBy(['isCompleted' => null, 'payOnDelivery' => 0, 'isPaymentCompleted' => 0], ['id' => 'DESC']);
+            $data = $orderRepo->findBy(['isCompleted' => 1,'isPaymentCompleted' => 1], ['id' => 'DESC']);
         } else {
             $data = $orderRepo->findAll();
         }
