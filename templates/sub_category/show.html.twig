@@ -2,13 +2,11 @@
 
 {% block title %}Détails de la sous-catégorie{% endblock %}
 
-
-
 {% block body %}
 <div class="container">
     <h1>Détails de la sous-catégorie</h1>
 
-    <table>
+    <table class="table table-bordered">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -18,12 +16,22 @@
                 <th>Nom</th>
                 <td>{{ sub_category.name }}</td>
             </tr>
+            <tr>
+                <th>Catégorie parente</th>
+                <td>{{ sub_category.category ? sub_category.category.name : 'Aucune' }}</td>
+            </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_sub_category_index') }}" class="btn btn-back">&larr; Retour à la liste</a>
-    <a href="{{ path('app_sub_category_edit', {'id': sub_category.id}) }}" class="btn btn-edit">Éditer</a>
+    <a href="{{ path('app_sub_category_index') }}" class="btn btn-secondary">&larr; Retour à la liste</a>
 
-    {{ include('sub_category/_delete_form.html.twig') }}
+    {% if sub_category.slug is not empty %}
+        <a href="{{ path('app_sub_category_edit', {
+            'category_slug': sub_category.category.slug,
+            'sub_category_slug': sub_category.slug
+        }) }}" class="btn btn-warning">Éditer</a>
+    {% endif %}
+
+    {{ include('sub_category/_delete_form.html.twig', { 'sub_category': sub_category }) }}
 </div>
 {% endblock %}

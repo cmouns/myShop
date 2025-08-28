@@ -1,40 +1,41 @@
 {{ form_start(form) }}
 
-    <div class="mb-3">
-        {{ form_widget(form.name, {attr: {class: 'form-control','placeholder': 'Nom'}}) }}
-        {{ form_errors(form.name) }}
-    </div>
+<div class="mb-3">
+    {{ form_widget(form.name, {attr: {class: 'form-control', placeholder: 'Nom du produit'}}) }}
+    {{ form_errors(form.name) }}
+</div>
 
-    <div class="mb-3">
-        {{ form_widget(form.description, {attr: {class: 'form-control','placeholder': 'Description'}}) }}
-        {{ form_errors(form.description) }}
-    </div>
+<div class="mb-3">
+    {{ form_widget(form.description, {attr: {class: 'form-control', placeholder: 'Description du produit'}}) }}
+    {{ form_errors(form.description) }}
+</div>
 
-    <div class="mb-3">
-        {{ form_row(form.price, {attr: {class: 'form-control' ,'placeholder': 'Prix'}}) }}
-        {{ form_errors(form.price) }}
-    </div>
-    {% if button_label != 'Modifier' %}
-        <div class="mb-3">
-            {{ form_row(form.stock, {attr: {class: 'form-control' ,'placeholder': 'Stock'}}) }}
-            {{ form_errors(form.stock) }}
-        </div>
-    {% endif %}
+<div class="mb-3">
+    {{ form_row(form.price, {attr: {class: 'form-control', placeholder: 'Prix'}}) }}
+    {{ form_errors(form.price) }}
+</div>
 
+{% if button_label != 'Modifier' %}
     <div class="mb-3">
-        <label for="{{ form.SubCategory.vars.id }}" class="form-label">Sous-catégorie</label>
-        {{ form_widget(form.SubCategory, {attr: {class: 'form-select'}}) }}
-        {{ form_errors(form.SubCategory) }}
+        {{ form_row(form.stock, {attr: {class: 'form-control', placeholder: 'Stock initial'}}) }}
+        {{ form_errors(form.stock) }}
     </div>
+{% endif %}
 
-    <div class="mb-3">
-        <label for="{{ form.image.vars.id }}" class="form-label">Image du produit</label>
-        {{ form_widget(form.image, {attr: {class: 'form-select'}}) }}
-        {{ form_errors(form.image) }}
-    </div>
+<div class="mb-3">
+    <label for="{{ form.subCategories.vars.id }}" class="form-label">Sous-catégories</label>
+    {{ form_widget(form.subCategories, {attr: {class: 'form-select'}, multiple: true}) }}
+    {{ form_errors(form.subCategories) }}
+</div>
 
-    <button type="submit" class="btn btn-primary">
-        {{ button_label|default('Sauvegarder') }}
-    </button>
+<div class="mb-3">
+    <label for="{{ form.image.vars.id }}" class="form-label">Image du produit</label>
+    {{ form_widget(form.image, {attr: {class: 'form-control'}}) }}
+    {{ form_errors(form.image) }}
+</div>
+
+<button type="submit" class="btn btn-primary">
+    {{ button_label|default('Sauvegarder') }}
+</button>
 
 {{ form_end(form) }}

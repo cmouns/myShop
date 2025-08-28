@@ -10,11 +10,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/sub/category')]
 final class SubCategoryController extends AbstractController
 {
-    #[Route(name: 'app_sub_category_index', methods: ['GET'])]
+    #[Route('/sub/category', name: 'app_sub_category_index', methods: ['GET'])]
     public function index(SubCategoryRepository $subCategoryRepository): Response
     {
         return $this->render('sub_category/index.html.twig', [
@@ -22,16 +22,19 @@ final class SubCategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_sub_category_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/sub/category/new', name: 'app_sub_category_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
         $subCategory = new SubCategory();
         $form = $this->createForm(SubCategoryType::class, $subCategory);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($subCategory);
-            $entityManager->flush();
+            // Génération automatique du slug
+            $subCategory->setSlug(strtolower($slugger->slug($subCategory->getName())));
+
+            $em->persist($subCategory);
+            $em->flush();
 
             return $this->redirectToRoute('app_sub_category_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -42,22 +45,38 @@ final class SubCategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_sub_category_show', methods: ['GET'])]
-    public function show(SubCategory $subCategory): Response
+    // Affichage friendly URL : /categorie-slug/sous-categorie-slug
+    #[Route('/{category_slug}/{sub_category_slug}', name: 'app_sub_category_show', methods: ['GET'])]
+    public function show(SubCategoryRepository $repo, string $sub_category_slug): Response
     {
+        $subCategory = $repo->findOneBy(['slug' => $sub_category_slug]);
+
+        if (!$subCategory) {
+            throw $this->createNotFoundException('Sous-catégorie introuvable.');
+        }
+
         return $this->render('sub_category/show.html.twig', [
             'sub_category' => $subCategory,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_sub_category_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, SubCategory $subCategory, EntityManagerInterface $entityManager): Response
+    // Edition friendly URL : /categorie-slug/sous-categorie-slug/edit
+    #[Route('/{category_slug}/{sub_category_slug}/edit', name: 'app_sub_category_edit', methods: ['GET', 'POST'])]
+    public function edit(SubCategoryRepository $repo, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, string $sub_category_slug): Response
     {
+        $subCategory = $repo->findOneBy(['slug' => $sub_category_slug]);
+        if (!$subCategory) {
+            throw $this->createNotFoundException('Sous-catégorie introuvable.');
+        }
+
         $form = $this->createForm(SubCategoryType::class, $subCategory);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            // Met à jour le slug si le nom change
+            $subCategory->setSlug(strtolower($slugger->slug($subCategory->getName())));
+
+            $em->flush();
 
             return $this->redirectToRoute('app_sub_category_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -68,12 +87,19 @@ final class SubCategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_sub_category_delete', methods: ['POST'])]
-    public function delete(Request $request, SubCategory $subCategory, EntityManagerInterface $entityManager): Response
+    // Suppression friendly URL : /categorie-slug/sous-categorie-slug/delete
+    #[Route('/{category_slug}/{sub_category_slug}/delete', name: 'app_sub_category_delete', methods: ['POST'])]
+    public function delete(Request $request, SubCategoryRepository $repo, string $sub_category_slug, EntityManagerInterface $em): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$subCategory->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($subCategory);
-            $entityManager->flush();
+        $subCategory = $repo->findOneBy(['slug' => $sub_category_slug]);
+
+        if (!$subCategory) {
+            throw $this->createNotFoundException('Sous-catégorie introuvable.');
+        }
+
+        if ($this->isCsrfTokenValid('delete'.$subCategory->getId(), $request->request->get('_token'))) {
+            $em->remove($subCategory);
+            $em->flush();
         }
 
         return $this->redirectToRoute('app_sub_category_index', [], Response::HTTP_SEE_OTHER);

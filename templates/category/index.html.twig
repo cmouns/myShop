@@ -23,15 +23,17 @@
                                     <tr>
                                         <td>{{ category.name }}</td>
                                         <td>
-                                            <a href="{{ path('app_category_update', {'id': category.id}) }}" class="btn btn-warning btn-sm btn-outline-primary">
+                                            <a href="{{ path('app_category_update', {'slug': category.slug, 'id': category.id}) }}" class="btn btn-warning btn-sm btn-outline-primary">
                                                 Modifier
                                             </a>
+
                                         </td>
                                         
                                         <td>
-                                            <a href="{{ path('app_category_delete', {'id': category.id}) }}" class="btn btn-danger btn-sm" onclick ="return confirm('Êtes-vous sûr(e) de vouloir supprimer ?')">
+                                            <a href="{{ path('app_category_delete', {'slug': category.slug, 'id': category.id}) }}" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr(e) de vouloir supprimer ?')">
                                                 Supprimer
                                             </a>
+
                                         </td>
                                     </tr>
 

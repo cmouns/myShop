@@ -37,10 +37,12 @@ class ProductUpdateType extends AbstractType
                 ])
             ]
             ])
-            ->add('SubCategory', EntityType::class, [
+            ->add('subCategories', EntityType::class, [
                 'class' => SubCategory::class,
                 'choice_label' => 'name',
                 'multiple' => true,
+                'label' => 'Sous-catégories',
+                'attr' => ['class' => 'form-select']
             ])
         ;
     }

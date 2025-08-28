@@ -28,6 +28,9 @@ class SubCategory
     #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'subCategories')]
     private Collection $products;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -85,6 +88,18 @@ class SubCategory
         if ($this->products->removeElement($product)) {
             $product->removeSubCategory($this);
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }

@@ -6,10 +6,12 @@ use App\Entity\City;
 use App\Form\CityType;
 use App\Repository\CityRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Metadata\Api\Requirements;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Requirement\Requirement;
 
 #[Route('/editor/city')]
 final class CityController extends AbstractController
@@ -77,5 +79,11 @@ final class CityController extends AbstractController
         }
 
         return $this->redirectToRoute('app_city_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/test/{slug}-{id}', name: 'app_test' , requirements: ['id' => '\d+', 'slug' => '[a-z0-9-]+'])]
+    public function test(Request $request, string $slug, int $id): Response
+    {
+        dd($slug, $id);
     }
 }

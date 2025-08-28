@@ -35,9 +35,14 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <a href="{{ path('app_product_show', {'id': product.id}) }}">Voir</a>
-                                <a href="{{ path('app_product_edit', {'id': product.id}) }}">Modifier</a>
-                                <a href="{{ path('app_product_stock_add', {'id': product.id}) }}">Gerer le stock</a>
+                                {% if product.slug is not empty %}
+                                    <a href="{{ path('app_product_show', {'slug': product.slug, 'id': product.id}) }}">Voir</a>
+                                    <a href="{{ path('app_product_edit', {'slug': product.slug, 'id': product.id}) }}">Modifier</a>
+                                    <a href="{{ path('app_product_stock_add', {'slug': product.slug, 'id': product.id}) }}">Gérer le stock</a>
+                                {% else %}
+                                    <span class="text-danger">Slug manquant</span>
+                                {% endif %}
+
 
                             </td>
                         </tr>
