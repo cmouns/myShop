@@ -46,7 +46,7 @@ final class SubCategoryController extends AbstractController
     }
 
     // Affichage friendly URL : /categorie-slug/sous-categorie-slug
-    #[Route('/{category_slug}/{sub_category_slug}', name: 'app_sub_category_show', methods: ['GET'])]
+    #[Route('/catalogue/{category_slug}/{sub_category_slug}', name: 'app_sub_category_show', methods: ['GET'])]
     public function show(SubCategoryRepository $repo, string $sub_category_slug): Response
     {
         $subCategory = $repo->findOneBy(['slug' => $sub_category_slug]);

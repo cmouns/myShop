@@ -35,7 +35,6 @@
                                 <a href="{{ path('app_users_remove_editor_role', {'id': user.id}) }}" class="btn btn-danger btn-sm rounded-pill px-3" onclick="return confirm('Êtes-vous sûr(e) de vouloir supprimer ?')">Supprimer</a>
                                 <a href="{{ path('app_users_to_editor', {'id': user.id}) }}" class="btn btn-primary btn-sm me-2 rounded-pill px-3" onclick="return confirm('Êtes-vous sûr(e) de vouloir ajouter ce role à cet utilisateur ?')">Modifier</a>
                             {% endif %}
-                            <a href="{{ path('app_users_remove', {'id': user.id}) }}" class="btn btn-danger btn-sm rounded-pill px-3">Supprimer</a>
 
                         </td>
                     </tr>
