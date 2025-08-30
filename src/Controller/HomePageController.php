@@ -15,46 +15,88 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class HomePageController extends AbstractController
 {
     #[Route('/', name: 'app_home_page', methods : ['GET'])]
-    public function index(ProductRepository $repo, CategoryRepository $categoryRepo,PaginatorInterface $paginator, Request $request): Response
+    public function index(ProductRepository $repo, CategoryRepository $categoryRepo, PaginatorInterface $paginator, Request $request): Response
     {
-        $data= $repo->findby([],['id'=>'DESC']);
+        $data = $repo->findBy([], ['id' => 'DESC']);
         $products = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),
             8
         );
-        $search = $repo->searchEngine('big');
-        
-        
+
+        $categories = $categoryRepo->findAll();
+        $categoriesWithData = $this->getCategoriesWithData($categoryRepo);
+
+        $productsWithSlugs = [];
+        foreach ($products as $product) {
+            $firstSubCategory = $product->getSubCategories()->first();
+            $productsWithSlugs[] = [
+                'id' => $product->getId(),
+                'name' => $product->getName(),
+                'slug' => $product->getSlug(),
+                'image' => $product->getImage(),
+                'price' => $product->getPrice(),
+                'sub_category_slug' => $firstSubCategory ? $firstSubCategory->getSlug() : null,
+            ];
+        }
+
         return $this->render('home_page/index.html.twig', [
             'products' => $products,
-            'categories' => $categoryRepo->findAll(),
-
+            'productsWithSlugs' => $productsWithSlugs,
+            'categories' => $categories,
+            'categoriesWithData' => $categoriesWithData,
         ]);
     }
 
-    #[Route('/product/{id}/show', name: 'app_home_product_show')]
-    public function showProduct(Product $product,ProductRepository $repo): Response
+    #[Route(
+        '/{sub_category_slug}/{id}/{slug}',
+        name: 'app_home_product_show',
+        requirements: [
+            'sub_category_slug' => '(?!sub|editor|admin|category|new).*',
+            'id' => '\d+'
+        ]
+    )]
+    public function showProduct(Product $product, ProductRepository $repo, CategoryRepository $categoryRepo): Response
     {
-        $lastProductsAdd = $repo->findBy([],['id'=>'DESC'],5);
+        $lastProductsAdd = $repo->findBy([], ['id' => 'DESC'], 5);
         return $this->render('home_page/show.html.twig', [
             'product' => $product,
-            'products'=> $lastProductsAdd
+            'products' => $lastProductsAdd,
+            'subCategory' => $product->getSubCategories()->first(),
+            'categoriesWithData' => $this->getCategoriesWithData($categoryRepo),
         ]);
-
-        
     }
 
-    #[Route('/product/subcategory/{id}/filter', name: 'app_home_product_filter', methods : ['GET'])]
-    public function filter($id,SubCategoryRepository $subCategoryRepo, CategoryRepository $categoryRepo): Response
-    {   
-        $product = $subCategoryRepo->find($id)->getProducts();
+    #[Route(
+        '/{category_slug}/{sub_category_slug}',
+        name: 'app_home_product_filter',
+        requirements: [
+            'category_slug' => '(?!editor|sub|admin|pay|cart|success).*',
+            'sub_category_slug' => '(?!product|category|new|success).*'
+        ],
+        methods: ['GET']
+    )]
+    public function filter(
+        string $category_slug,
+        string $sub_category_slug,
+        CategoryRepository $categoryRepo,
+        SubCategoryRepository $subCategoryRepo
+    ): Response {
+        $category = $categoryRepo->findOneBy(['slug' => $category_slug]);
+        $subCategory = $subCategoryRepo->findOneBy(['slug' => $sub_category_slug]);
+
+        if (!$category || !$subCategory) {
+            throw $this->createNotFoundException('Catégorie ou sous-catégorie introuvable.');
+        }
+
+        $products = $subCategory->getProducts();
 
         return $this->render('home_page/filter.html.twig', [
-            'products'=> $product,
-            'subCategory' => $subCategoryRepo->find($id),
+            'products' => $products,
+            'category' => $category,
+            'subCategory' => $subCategory,
             'categories' => $categoryRepo->findAll(),
-            
+            'categoriesWithData' => $this->getCategoriesWithData($categoryRepo),
         ]);
     }
 
@@ -66,7 +108,6 @@ final class HomePageController extends AbstractController
             throw $this->createNotFoundException('Catégorie non trouvée');
         }
 
-        // Récupère tous les produits des sous-catégories
         $products = [];
         foreach ($category->getSubCategories() as $subCategory) {
             foreach ($subCategory->getProducts() as $product) {
@@ -78,9 +119,49 @@ final class HomePageController extends AbstractController
             'products' => $products,
             'category' => $category,
             'categories' => $categoryRepo->findAll(),
+            'categoriesWithData' => $this->getCategoriesWithData($categoryRepo),
         ]);
     }
-    
+
+    // Méthode utilitaire à placer en dehors de toute autre méthode
+    private function getCategoriesWithData(CategoryRepository $categoryRepo): array
+    {
+        $categories = $categoryRepo->findAll();
+        $categoriesWithData = [];
+        foreach ($categories as $category) {
+            $subCategoriesWithSlugs = [];
+            foreach ($category->getSubCategories() as $subCategory) {
+                $subCategoriesWithSlugs[] = [
+                    'id' => $subCategory->getId(),
+                    'name' => $subCategory->getName(),
+                    'slug' => $subCategory->getSlug(),
+                ];
+            }
+            $productForCategory = null;
+            foreach ($category->getSubCategories() as $subCategory) {
+                $productForCategory = $subCategory->getProducts()->first();
+                if ($productForCategory) {
+                    break;
+                }
+            }
+            $categoriesWithData[] = [
+                'id' => $category->getId(),
+                'name' => $category->getName(),
+                'slug' => $category->getSlug(),
+                'subCategories' => $subCategoriesWithSlugs,
+                'product' => $productForCategory
+                    ? [
+                        'id' => $productForCategory->getId(),
+                        'name' => $productForCategory->getName(),
+                        'slug' => $productForCategory->getSlug(),
+                        'image' => $productForCategory->getImage(),
+                        'sub_category_slug' => $productForCategory->getSubCategories()->first()
+                            ? $productForCategory->getSubCategories()->first()->getSlug()
+                            : null,
+                    ]
+                    : null,
+            ];
+        }
+        return $categoriesWithData;
+    }
 }
-
-

@@ -53,60 +53,128 @@
   </div>
 </nav>
 
-{# Sous-navbar pour les catégories #}
+{# Sous-navbar pour les catégories avec mega menu #}
+<nav class="navbar navbar-expand-lg navbar-light bg-secondary-subtle border-top">
+  <div class="container">
+    <div class="collapse navbar-collapse show" id="navbarCategories">
+      <ul class="navbar-nav mx-auto">
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-secondary-subtle border-top">
-    <div class="container">
-      <div class="collapse navbar-collapse show" id="navbarCategories">
-        <ul class="navbar-nav mx-auto">
-
-          {# Menu admin #}
-          {% if is_granted("ROLE_ADMIN") %}
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Admin</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ path('app_category') }}">Catégories</a></li>
-                <li><a class="dropdown-item" href="{{ path('app_category_add') }}">Ajouter une catégorie</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{{ path('app_sub_category_index') }}">Sous-Catégorie</a></li>
-                <li><a class="dropdown-item" href="{{ path('app_sub_category_new') }}">Ajouter une sous-catégorie</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{{ path('app_product_index') }}">Produit</a></li>
-                <li><a class="dropdown-item" href="{{ path('app_product_new') }}">Ajouter un produit</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{{ path('app_users') }}">Utilisateurs</a></li>
-              </ul>
-            </li>
-          {% endif %}
+        {# Menu admin #}
+        {% if is_granted("ROLE_ADMIN") %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Admin</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{{ path('app_category') }}">Catégories</a></li>
+              <li><a class="dropdown-item" href="{{ path('app_category_add') }}">Ajouter une catégorie</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{{ path('app_sub_category_index') }}">Sous-Catégorie</a></li>
+              <li><a class="dropdown-item" href="{{ path('app_sub_category_new') }}">Ajouter une sous-catégorie</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{{ path('app_product_index') }}">Produit</a></li>
+              <li><a class="dropdown-item" href="{{ path('app_product_new') }}">Ajouter un produit</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{{ path('app_users') }}">Utilisateurs</a></li>
+            </ul>
+          </li>
+        {% endif %}
 
         {# Menu catégories publiques #}
-        
-        {% for category in categories %}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-              {{ category.name }}
-            </a>
-            {% if category.subCategories is not empty %}
-              <ul class="dropdown-menu">
+{% for category in categoriesWithData %}
+  <li class="nav-item dropdown position-static">
+    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+      {{ category.name }}
+    </a>
+
+    {% if category.subCategories is not empty %}
+      <div class="dropdown-menu mega-menu p-4">
+        <div class="row">
+
+          {# Colonne sous-catégories #}
+          <div class="col-md-4">
+            <h6 class="fw-bold">{{ category.name }}</h6>
+            <ul class="list-unstyled">
+              {% for subCategory in category.subCategories %}
+                {% if subCategory.slug is not empty %}
+                  <li>
+                    <a class="dropdown-item" href="{{ path('app_home_product_filter', {
+                      'category_slug': category.slug,
+                      'sub_category_slug': subCategory.slug
+                    }) }}">
+                      {{ subCategory.name }}
+                    </a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+
+          {# Produit mis en avant automatiquement #}
+          <div class="col-md-8 text-center">
+            {% if category.product %}
+              <a href="{{ path('app_home_product_show', {
+                sub_category_slug: category.product.sub_category_slug,
+                id: category.product.id,
+                slug: category.product.slug
+              }) }}">
+                <img src="{{ asset('uploads/images/' ~ category.product.image) }}"
+                     alt="Article à la une"
+                     class="img-fluid rounded"
+                     style="max-width: 180px; max-height: 180px; object-fit: contain;">
+                {% set subCategoryName = '' %}
                 {% for subCategory in category.subCategories %}
-                  {% if subCategory.slug is not empty %}
-                    <li>
-                      <a class="dropdown-item" href="{{ path('app_sub_category_show', {
-                          'category_slug': category.slug,
-                          'sub_category_slug': subCategory.slug}) }}">
-                          {{ subCategory.name }}
-                      </a>
-                    </li>
+                  {% if subCategory.slug == category.product.sub_category_slug %}
+                    {% set subCategoryName = subCategory.name %}
                   {% endif %}
                 {% endfor %}
-              </ul>
+                <p class="mt-2">{{ subCategoryName }}</p>
+              </a>
+            {% else %}
+              <img src="https://via.placeholder.com/250" class="img-fluid rounded">
+              <p class="mt-2">Bientôt disponible</p>
             {% endif %}
-          </li>
-        {% endfor %}
+          </div>
+
+        </div>
+      </div>
+    {% endif %}
+  </li>
+{% endfor %}
+
 
       </ul>
     </div>
   </div>
 </nav>
 
-{# Fin sous-navbar #}
+<style>
+  /* Mega-menu large */
+  .dropdown-menu.mega-menu {
+    width: 800px;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  /* Pour activer l'ouverture au hover */
+  @media (min-width: 992px) {
+    .nav-item.dropdown:hover > .dropdown-menu {
+      display: block;
+    }
+  }
+
+  .dropdown-menu.mega-menu img {
+    max-width: 180px;
+    max-height: 180px;
+    object-fit: contain;
+  }
+
+  .dropdown-menu.mega-menu a,
+  .dropdown-menu.mega-menu a:visited,
+  .dropdown-menu.mega-menu a:active {
+      background: none !important;
+      text-decoration: none !important;
+      color: inherit !important;
+      box-shadow: none !important;
+  }
+</style>
+{# Fin du fichier navbar.html.twig #}

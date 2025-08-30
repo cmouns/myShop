@@ -30,6 +30,21 @@ class ProductRepository extends ServiceEntityRepository
         ->getResult();
     }
 
+    // src/Repository/ProductRepository.php
+    public function findOneByCategory(int $categoryId): ?Product
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.subCategories', 'sc')
+            ->join('sc.category', 'c')
+            ->andWhere('c.id = :catId')
+            ->setParameter('catId', $categoryId)
+            ->orderBy('p.id', 'DESC') // tu peux changer en ventes si tu as ce champ
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+
     //    /**
     //     * @return Product[] Returns an array of Product objects
     //     */

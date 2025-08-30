@@ -4,33 +4,34 @@
 
 {% block body %}
 <div class="container">
-
-    {% if subCategory is defined %}
-    <h1 class="mb-5 mt-5">{{ subCategory.name }}</h1>
-    {% elseif category is defined %}
-    <h1 class="mb-5 mt-5">{{ category.name }}</h1>
-    {% endif %}    
-    <div class="row">
-        {% for product in products %}
-      <div class="col-md-3 mb-4 d-flex">
-        <div class="card h-100 w-100 d-flex flex-column">
+  <h1>{{ subCategory.getName() }}</h1>
+  <div class="row">
+    {% for product in products %}
+      {% set subCategory = product.getSubCategories().first() %}
+      {% if subCategory %}
+        <div class="col-md-3 mb-4 d-flex">
+          <div class="card h-100 w-100 d-flex flex-column">
             <div class="card-img-top ratio ratio-4x3 bg-light rounded-top" style="overflow: hidden;">
-                <img 
-                src="{{ asset('uploads/images/' ~ product.image) }}" 
-                alt="{{ product.name }}" 
+              <img 
+                src="{{ asset('uploads/images/' ~ product.getImage()) }}" 
+                alt="{{ product.getName() }}" 
                 class="img-fluid h-100 w-100"
                 style="object-fit: contain; background: #f8f9fa;">
             </div>
             <div class="card-body d-flex flex-column">
-                <a href="{{ path('app_home_product_show',{'id':product.id}) }}"<h5 class="card-title titleProduct" style="min-height:2.4em">{{ product.name }}</h5>
-                <p class="card-text flex-grow-1">
-                {{ product.description|slice(0, 60) }}{{ product.description|length > 60 ? '...' }}
-                </p>
-                <h3>{{product.price}}€</h3>
-                <a href="#" class="btn btn-outline-success mt-auto w-150">Ajouter au panier</a>
+              <a href="{{ path('app_home_product_show', {
+                'sub_category_slug': subCategory.getSlug(),
+                'id': product.getId(),
+                'slug': product.getSlug()
+              }) }}">
+                <h5 class="card-title titleProduct" style="min-height:2.4em">{{ product.getName() }}</h5>
+              </a>
+              <h3>{{ product.getPrice() }}€</h3>
+              <a href="{{ path('app_cart_new',{'id':product.getId()}) }}" class="btn btn-outline-success mt-auto w-150">Ajouter au panier</a>
             </div>
+          </div>
         </div>
-    </div>
+      {% endif %}
     {% endfor %}
   </div>
 </div>

@@ -7,54 +7,60 @@
         <h1>Product index</h1>
         {% include 'layouts/_flash_message.html.twig'%}
 
-
-                    <table class="table">
-                <thead>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Prix</th>
+                    <th>Stock</th>
+                    <th>Sous-catégorie</th> {# Nouvelle colonne #}
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% if products|length > 0 %}
+                {% for product in products %}
                     <tr>
-                        <th>Id</th>
-                        <th>Nom</th>
-                        <th>Description</th>
-                        <th>Prix</th>
-                        <th>Stock</th>
-                        <th>Actions</th>
+                        <td>{{ product.id }}</td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.description | slice(0, 100) }} ...</td>
+                        <td>{{ product.price }}</td>
+                        <td>
+                            {% if product.stock > 0 %}
+                                {{ product.stock }}
+                            {% else %}
+                                <span class="text-danger">Rupture de stock</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if product.getSubCategories()|length > 0 %}
+                                {% for subCategory in product.getSubCategories() %}
+                                    <span class="badge bg-info">{{ subCategory.name }}</span>
+                                {% endfor %}
+                            {% else %}
+                                <span class="text-danger">Aucune</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if product.slug is not empty %}
+                                <a href="{{ path('app_product_show', {'slug': product.slug, 'id': product.id}) }}">Voir</a>
+                                <a href="{{ path('app_product_edit', {'slug': product.slug, 'id': product.id}) }}">Modifier</a>
+                                <a href="{{ path('app_product_stock_add', {'slug': product.slug, 'id': product.id}) }}">Gérer le stock</a>
+                            {% else %}
+                                <span class="text-danger">Slug manquant</span>
+                            {% endif %}
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                {% if products|length > 0 %}
-                    {% for product in products %}
-                        <tr>
-                            <td>{{ product.id }}</td>
-                            <td>{{ product.name }}</td>
-                            <td>{{ product.description | slice(0, 100) }} ...</td>
-                            <td>{{ product.price }}</td>
-                            <td>
-                                {% if product.stock > 0 %}
-                                    {{ product.stock }}
-                                {% else %}
-                                    <span class="text-danger">Rupture de stock</span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if product.slug is not empty %}
-                                    <a href="{{ path('app_product_show', {'slug': product.slug, 'id': product.id}) }}">Voir</a>
-                                    <a href="{{ path('app_product_edit', {'slug': product.slug, 'id': product.id}) }}">Modifier</a>
-                                    <a href="{{ path('app_product_stock_add', {'slug': product.slug, 'id': product.id}) }}">Gérer le stock</a>
-                                {% else %}
-                                    <span class="text-danger">Slug manquant</span>
-                                {% endif %}
-
-
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="6">No records found</td>
-                    </tr>
-                {% endif %}
-                </tbody>
-            </table>
-
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="7">No records found</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
 
         <a href="{{ path('app_product_new') }}">Create new</a>
     </div>
